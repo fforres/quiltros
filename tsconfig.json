@@ -9,6 +9,7 @@
     "noEmit": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "noImplicitAny": false,
     "preserveConstEnums": true,
     "removeComments": false,
     "skipLibCheck": true,
