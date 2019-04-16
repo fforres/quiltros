@@ -33,7 +33,7 @@
   },
   "lint-staged": {
     "*{ts,tsx}": [
-      "tslint",
+      "tslint --fix",
       "prettier --write",
       "git add"
     ]
