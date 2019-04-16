@@ -1,34 +1,23 @@
-import match from 'micro-route/match';
-import next from 'next';
-import { parse } from 'url';
+import fastifyCreator from 'fastify';
+import fastifyNextJS from 'fastify-nextjs';
 
-import { IncomingMessage, ServerResponse } from 'http';
+const fastify = fastifyCreator();
 
-const dev = process.env.NODE_ENV !== 'production';
+fastify.register(fastifyNextJS).after(() => {
+  fastify.next('/hello', (app, req, reply) => {
+    return app.render(req.raw, reply.res, '/hello', req.query, {});
+  });
+  fastify.next('/create', (app, req, reply) => {
+    return app.render(req.raw, reply.res, '/', req.query, {});
+  });
+  fastify.next('/', (app, req, reply) => {
+    return app.render(req.raw, reply.res, '/', req.query, {});
+  });
+});
 
-const app = next({ dev });
-const handle = app.getRequestHandler();
-
-const isA = (req: IncomingMessage) => match(req, '/a');
-const isB = (req: IncomingMessage) => match(req, '/b');
-
-async function main(req: IncomingMessage, res: ServerResponse) {
-  const { url = '' } = req;
-  const parsedUrl = parse(url, true);
-  const { query } = parsedUrl;
-
-  if (isA(req)) {
-    return app.render(req, res, '/b', query);
-  } else if (isB(req)) {
-    return app.render(req, res, '/a', query);
+fastify.listen(3000, err => {
+  if (err) {
+    throw err;
   }
-
-  return handle(req, res, parsedUrl);
-}
-
-async function setup(handler) {
-  await app.prepare();
-  return handler;
-}
-
-module.exports = setup(main);
+  console.info('Server listenging on http://localhost:3000');
+});
