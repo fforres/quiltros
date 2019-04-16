@@ -37,5 +37,8 @@
       "prettier --write",
       "git add"
     ]
+  },
+  "prettier": {
+    "singleQuote": true
   }
 }
