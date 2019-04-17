@@ -2,18 +2,23 @@
   "name": "create-next-example-app",
   "scripts": {
     "dev": "ts-node-dev ./server.ts",
+    "dc": "docker-compose up",
     "build": "next build",
     "start": "NODE_ENV=production micro"
   },
   "dependencies": {
     "fastify": "^2.2.0",
     "fastify-nextjs": "^4.1.0",
+    "knex": "^0.16.5",
     "micro-route": "^2.5.0",
     "next": "^8.0.4",
+    "pg": "^7.10.0",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "sqlite3": "^4.0.6"
   },
   "devDependencies": {
+    "@types/knex": "^0.16.1",
     "@types/micro": "^7.3.3",
     "@types/next": "^8.0.3",
     "@types/node": "^11.13.4",
