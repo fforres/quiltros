@@ -1,7 +1,8 @@
 exports.up = async (knex, Promise) => {
-  await knex.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
+  const { NODE_ENV } = process.env
+  NODE_ENV && await knex.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
   await knex.schema.createTable('users', table => {
-    table.string('hash').primary().defaultTo(knex.raw('uuid_generate_v4()'))
+    NODE_ENV ? table.uuid('hash').primary().defaultTo(knex.raw('uuid_generate_v4()')) : table.uuid('hash').primary()
     table.string('first_name');
     table.string('last_name');
   })
