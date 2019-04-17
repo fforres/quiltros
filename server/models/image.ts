@@ -1,17 +1,13 @@
-import knex from 'knex'
+import { pgConnection } from '../clients/postgres'
 
-const connection = {
-  database: 'myapp_test',
-  host: '127.0.0.1',
-  migrations: {
-    tableName: 'migrations'
-  },
-  password: 'secretpassword',
-  user: 'postgres',
+export const createImage = async () => {
+  const data = await pgConnection('images').returning('hash')
+  console.log({ data })
+  return data
 }
 
-export const pgConnection = knex({
-  client: 'pg',
-  connection,
-  debug: true
-});
+export const updateImageUrl = async (id: string, url: string) => {
+  const data = await pgConnection('images').where('hash', id).update('url', url)
+  console.log({ data })
+  return data
+}
