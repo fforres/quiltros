@@ -1,6 +1,8 @@
 /** @jsx jsx */
+import { Button, Card, Elevation } from '@blueprintjs/core';
 import { jsx } from '@emotion/core';
 import React, { Component, createRef } from 'react';
+// import { Card, Elevation } from "@blueprintjs/core";
 import Icon from '../icon';
 import { buttonStyle, fileUpload, navContainerStyle, ulStyle } from './styles';
 
@@ -34,21 +36,26 @@ class Nav extends Component<INavProps> {
 
   render() {
     return (
-      <nav css={navContainerStyle}>
-        <ul css={ulStyle}>
-          <li>logo</li>
-          <button css={buttonStyle} onClick={this.openFile}>
-            Upload an image
-            <Icon iconName='upload' />
-          </button>
-          <input
-            ref={this.inputFileRef}
-            onChange={this.onFileUploaded}
-            type='file'
-            css={fileUpload}
-          />
-          <li>login</li>
-        </ul>
+      <nav>
+        <Card css={navContainerStyle}>
+          <ul css={ulStyle}>
+            <li />
+            <Button
+              icon='upload'
+              intent='primary'
+              rightIcon='caret-down'
+              text='Upload image'
+              onClick={this.openFile}
+            />
+            <input
+              ref={this.inputFileRef}
+              onChange={this.onFileUploaded}
+              type='file'
+              css={fileUpload}
+            />
+            <li />
+          </ul>
+        </Card>
       </nav>
     );
   }

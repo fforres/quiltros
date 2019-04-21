@@ -1,4 +1,5 @@
 /** @jsx jsx */
+import { Card, Elevation } from '@blueprintjs/core';
 import { jsx } from '@emotion/core';
 import React, { Component, createRef } from 'react';
 import { canvasStyle } from './style';
@@ -18,8 +19,8 @@ class Canvas extends Component<IAppProps, IAppState> {
 
   state = {
     backgroundImage: null,
-    canvasHeight: 768,
-    canvasWidth: 1280
+    canvasHeight: 750,
+    canvasWidth: 500
   };
 
   resizeImageHeight = (img, newHeight, newWidth) => {
@@ -92,7 +93,7 @@ class Canvas extends Component<IAppProps, IAppState> {
       return null;
     }
     return (
-      <div css={canvasStyle}>
+      <Card css={canvasStyle}>
         <Stage width={canvasWidth} height={canvasHeight}>
           <BackgroundImage
             backgroundImage={backgroundImage}
@@ -107,7 +108,7 @@ class Canvas extends Component<IAppProps, IAppState> {
             />
           </Layer>
         </Stage>
-      </div>
+      </Card>
     );
   }
 }

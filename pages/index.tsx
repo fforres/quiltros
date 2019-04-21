@@ -1,7 +1,11 @@
+/** @jsx jsx */
+import '@blueprintjs/core/lib/css/blueprint.css';
+import { jsx } from '@emotion/core';
 import React from 'react';
 import Canvas from '../components/canvas';
-import Head from '../components/head';
+import LeftSidebar from '../components/leftSidebar';
 import Nav from '../components/nav';
+import { containerStyle } from './styles';
 
 interface IHomeState {
   canvasImage: HTMLImageElement | null;
@@ -23,9 +27,9 @@ class Home extends React.PureComponent<any, IHomeState> {
 
     return (
       <div>
-        <Head title='Home' />
         <Nav onImageUploaded={this.setCanvasImage} />
-        <section data-name='bodycontainer'>
+        <section data-name='bodycontainer' css={containerStyle}>
+          <LeftSidebar />
           <Canvas image={canvasImage} />
         </section>
       </div>

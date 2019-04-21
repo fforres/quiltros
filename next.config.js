@@ -1,13 +1,22 @@
-const withTypescript = require('@zeit/next-typescript')
-
-module.exports = withTypescript({
-  webpack: config => {
-    // Fixes npm packages that depend on `fs` module
-    config.node = {
-      fs: 'empty'
-    }
-
-    return config
-  }
+const withPlugins = require('next-compose-plugins');
+const withTypescript = require('@zeit/next-typescript');
+const withCSS = require('@zeit/next-css');
+const withSourceMaps = require('@zeit/next-source-maps')({
+  devtool: 'hidden-source-map'
 })
 
+const nextConfig = {
+  webpack: (config, options) => {
+
+    // modify the `config` here
+
+    return config;
+  },
+};
+
+
+module.exports = withPlugins([
+  withSourceMaps,
+  withCSS,
+  withTypescript
+], nextConfig)

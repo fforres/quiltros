@@ -2,12 +2,12 @@ import Document, { Head, Html, Main, NextScript } from 'next/document';
 import { resetCss } from './resetcss';
 
 class MyDocument extends Document {
-  public static async getInitialProps(ctx) {
+  static async getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx);
     return { ...initialProps };
   }
 
-  public render() {
+  render() {
     return (
       <Html>
         <Head>
