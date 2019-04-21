@@ -63,17 +63,6 @@ class Canvas extends Component<IAppProps, IAppState> {
     return this.resizeImageHeight(image, imageHeight, imageWidth);
   };
 
-  // handleDragEnd = e => {
-  //   e.target.to({
-  //     duration: 0.5,
-  //     easing: Konva.Easings.ElasticEaseOut,
-  //     scaleX: 1,
-  //     scaleY: 1,
-  //     shadowOffsetX: 5,
-  //     shadowOffsetY: 5
-  //   });
-  // };
-
   onDoubleClickText = e => {
     const textPosition = e.target.absolutePosition();
     const stageBox = e.target
@@ -84,9 +73,10 @@ class Canvas extends Component<IAppProps, IAppState> {
       x: stageBox.left + textPosition.x,
       y: stageBox.top + textPosition.y
     };
+    console.log(areaPosition);
   };
 
-  async componentDidUpdate(prevProps, prevState) {
+  async componentDidUpdate(prevProps) {
     const { image } = this.props;
     if (this.props.image !== prevProps.image) {
       if (image) {
@@ -94,14 +84,6 @@ class Canvas extends Component<IAppProps, IAppState> {
         this.setState({ backgroundImage: newImage });
       }
     }
-
-    // if (prevState !== this.state) {
-    //   const { backgroundImage, canvasHeight, canvasWidth } = this.state;
-    //   if (backgroundImage) {
-    //     // const { width, height } = backgroundImage
-    //     // context.drawImage(backgroundImage, medianWidth, medianHeight);
-    //   }
-    // }
   }
 
   render() {

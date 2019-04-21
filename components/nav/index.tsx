@@ -1,7 +1,8 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 import React, { Component, createRef } from 'react';
-import { fileUpload, navContainerStyle, ulStyle } from './styles';
+import Icon from '../icon';
+import { buttonStyle, fileUpload, navContainerStyle, ulStyle } from './styles';
 
 interface INavProps {
   onImageUploaded: (prop1: HTMLImageElement) => void;
@@ -36,7 +37,10 @@ class Nav extends Component<INavProps> {
       <nav css={navContainerStyle}>
         <ul css={ulStyle}>
           <li>logo</li>
-          <button onClick={this.openFile}>Upload an image</button>
+          <button css={buttonStyle} onClick={this.openFile}>
+            Upload an image
+            <Icon iconName='upload' />
+          </button>
           <input
             ref={this.inputFileRef}
             onChange={this.onFileUploaded}

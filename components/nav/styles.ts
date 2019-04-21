@@ -21,3 +21,7 @@ export const ulStyle = css`
 export const fileUpload = css`
   display: none;
 `;
+
+export const buttonStyle = css`
+  display: flex;
+`;
