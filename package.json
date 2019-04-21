@@ -12,11 +12,14 @@
     "fastify": "^2.2.0",
     "fastify-nextjs": "^4.1.0",
     "knex": "^0.16.5",
+    "konva": "^3.2.5",
     "micro-route": "^2.5.0",
     "next": "^8.0.4",
     "pg": "^7.10.0",
+    "polished": "^3.2.0",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "react-konva": "^16.8.6"
   },
   "devDependencies": {
     "@types/knex": "^0.16.1",
