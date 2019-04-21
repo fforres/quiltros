@@ -6,6 +6,7 @@
     "tslint-config-prettier"
   ],
   "rules": {
+    "member-access": [true, "no-public"],
     "no-console": false,
     "prettier": true,
     "quotemark": [true, "single"]
