@@ -4,6 +4,7 @@
     "dev": "nodemon",
     "dc": "docker-compose up",
     "build": "next build",
+    "export": "next export",
     "start": "NODE_ENV=production micro"
   },
   "dependencies": {
