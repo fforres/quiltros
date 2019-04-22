@@ -12,6 +12,11 @@ const nextConfig = {
 
     return config;
   },
+  exportPathMap: function() {
+    return {
+      '/': { page: '/' }
+    }
+  }
 };
 
 
