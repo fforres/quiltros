@@ -1,13 +1,32 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 import React, { createRef } from 'react';
-import { canvasStyle } from './style';
+import { Text } from 'react-konva';
+import { ITextBlocksConfigPanelState } from '../../leftSidebar/textBlocksCreator/panel';
 
-import { Group, Layer, Stage, Text } from 'react-konva';
-import BackgroundImage from './backgroundImage';
-import TransformerComponent from './transformer';
+interface ICanvasText extends ITextBlocksConfigPanelState {}
+class CanvasText extends React.Component<ICanvasText, any> {
+  static getDerivedStateFromProps(props) {
+    let stateFontSize = 10;
+    const { fontSize } = props;
+    if (fontSize === 'small') {
+      stateFontSize = 14;
+    }
+    if (fontSize === 'medium') {
+      stateFontSize = 21;
+    }
+    if (fontSize === 'large') {
+      stateFontSize = 35;
+    }
+    return {
+      fontSize: stateFontSize
+    };
+  }
 
-class CanvasText extends React.Component<any> {
+  state = {
+    fontSize: 10
+  };
+
   transformerRef = createRef<any>();
 
   onTransform = () => {
@@ -52,12 +71,15 @@ class CanvasText extends React.Component<any> {
     };
   };
   render() {
+    const { id, text } = this.props;
+    const { fontSize } = this.state;
     return (
       <Text
         padding={10}
+        fontSize={fontSize}
         ref={this.transformerRef}
-        name='a-text'
-        text='Try to drag a star'
+        name={id}
+        text={text}
         transformsEnabled='position'
         draggable={true}
         dragBoundFunc={this.onDrag}

@@ -4,7 +4,7 @@ import {
   ButtonGroup,
   FormGroup,
   Icon,
-  InputGroup
+  TextArea
 } from '@blueprintjs/core';
 import { jsx } from '@emotion/core';
 import React from 'react';
@@ -53,25 +53,38 @@ export default class TextBlocksConfigPanel extends React.Component<
 
   render() {
     const { shown } = this.props;
+    const { fontSize } = this.state;
     return (
       <div css={[hiddenStyle, shown && shownStyle]}>
         <FormGroup label='Texto'>
-          <InputGroup
+          <TextArea
+            fill={true}
+            growVertically={true}
             name='Texto'
-            type='Texto'
-            placeholder='Texto'
             onChange={this.onMainTextChanged}
           />
         </FormGroup>
         <FormGroup label='Tamaño'>
           <ButtonGroup fill={true}>
-            <Button large={true} onClick={this.setHeight('small')}>
+            <Button
+              large={true}
+              active={fontSize === 'small'}
+              onClick={this.setHeight('small')}
+            >
               <Icon iconSize={10} icon='font' />
             </Button>
-            <Button large={true} onClick={this.setHeight('medium')}>
+            <Button
+              large={true}
+              active={fontSize === 'medium'}
+              onClick={this.setHeight('medium')}
+            >
               <Icon iconSize={16} icon='font' />
             </Button>
-            <Button large={true} onClick={this.setHeight('large')}>
+            <Button
+              large={true}
+              active={fontSize === 'large'}
+              onClick={this.setHeight('large')}
+            >
               <Icon iconSize={24} icon='font' />
             </Button>
           </ButtonGroup>

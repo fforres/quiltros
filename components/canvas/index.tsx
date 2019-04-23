@@ -5,12 +5,14 @@ import React, { Component } from 'react';
 import { canvasStyle } from './style';
 
 import { Layer, Stage } from 'react-konva';
+import { ITextBlocksConfigPanelState } from '../leftSidebar/textBlocksCreator/panel';
 import BackgroundImage from './backgroundImage';
 import Text from './Text';
 import TransformerComponent from './transformer';
 
 interface IAppProps {
   image: HTMLImageElement | null;
+  textBlocks: { [s: string]: ITextBlocksConfigPanelState };
 }
 
 interface IAppState {
@@ -110,6 +112,7 @@ class Canvas extends Component<IAppProps, IAppState> {
       canvasWidth,
       selectedShapeName
     } = this.state;
+    const { textBlocks } = this.props;
     return (
       <Card elevation={Elevation.ONE} css={canvasStyle}>
         {process.browser && (
@@ -124,7 +127,9 @@ class Canvas extends Component<IAppProps, IAppState> {
               canvasWidth={canvasWidth}
             />
             <Layer>
-              <Text text='Try to drag a star' />
+              {Object.values(textBlocks).map(textBlock => {
+                return <Text key={textBlock.id} {...textBlock} />;
+              })}
               <TransformerComponent
                 resizeEnabled={true}
                 rotateEnabled={true}

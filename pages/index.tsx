@@ -10,11 +10,13 @@ import { containerStyle } from './styles';
 
 interface IHomeState {
   canvasImage: HTMLImageElement | null;
+  textBlocks: { [s: string]: ITextBlocksConfigPanelState };
 }
 
 class Home extends React.PureComponent<any, IHomeState> {
   state = {
-    canvasImage: null
+    canvasImage: null,
+    textBlocks: {}
   };
 
   setCanvasImage = (image: HTMLImageElement) => {
@@ -24,7 +26,13 @@ class Home extends React.PureComponent<any, IHomeState> {
   };
 
   onTextChanged = (s: ITextBlocksConfigPanelState) => {
-    console.log(s);
+    const { textBlocks } = this.state;
+    this.setState({
+      textBlocks: {
+        ...textBlocks,
+        [s.id]: s
+      }
+    });
   };
 
   render() {

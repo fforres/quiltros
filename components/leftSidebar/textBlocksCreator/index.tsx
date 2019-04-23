@@ -24,7 +24,7 @@ export default class TextBlocksCreator extends React.Component<
   state = {
     selected: 'alignment-top'
   };
-  onButtonClicked = (key, e) => {
+  onButtonClicked = key => {
     this.setState({ selected: key });
   };
 
@@ -32,7 +32,7 @@ export default class TextBlocksCreator extends React.Component<
     return <p>asdasd</p>;
   };
 
-  getOnButtonClicked = key => e => this.onButtonClicked(key, e);
+  getOnButtonClicked = key => () => this.onButtonClicked(key);
 
   render() {
     const { selected } = this.state;
