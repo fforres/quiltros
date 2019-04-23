@@ -5,6 +5,9 @@
     "tslint-eslint-rules",
     "tslint-config-prettier"
   ],
+  "linterOptions": {
+    "exclude": ["migrations/*", "*.js"]
+  },
   "rules": {
     "member-access": [true, "no-public"],
     "no-empty-interface": false,
