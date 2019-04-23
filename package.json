@@ -4,8 +4,7 @@
     "dev": "nodemon",
     "dc": "docker-compose up",
     "build": "next build",
-    "export": "next export",
-    "start": "NODE_ENV=production micro"
+    "export": "next export"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.15.1",
@@ -18,7 +17,6 @@
     "fastify-nextjs": "^4.1.0",
     "knex": "^0.16.5",
     "konva": "^3.2.5",
-    "micro-route": "^2.5.0",
     "next": "^8.0.4",
     "pg": "^7.10.0",
     "polished": "^3.2.0",

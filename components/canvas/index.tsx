@@ -1,26 +1,30 @@
 /** @jsx jsx */
 import { Card, Elevation } from '@blueprintjs/core';
 import { jsx } from '@emotion/core';
-import React, { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import { canvasStyle } from './style';
 
-import { Layer, Stage, Text } from 'react-konva';
+import { Layer, Stage } from 'react-konva';
+import { ITextBlocksConfigPanelState } from '../leftSidebar/textBlocksCreator/panel';
 import BackgroundImage from './backgroundImage';
+import Text from './Text';
+import TransformerComponent from './transformer';
 
 interface IAppProps {
   image: HTMLImageElement | null;
+  textBlocks: { [s: string]: ITextBlocksConfigPanelState };
 }
 
 interface IAppState {
   backgroundImage: HTMLImageElement | null;
+  selectedShapeName: string;
 }
 class Canvas extends Component<IAppProps, IAppState> {
-  canvasRef = createRef<HTMLCanvasElement>();
-
   state = {
     backgroundImage: null,
     canvasHeight: 750,
-    canvasWidth: 500
+    canvasWidth: 500,
+    selectedShapeName: ''
   };
 
   resizeImageHeight = (img, newHeight, newWidth) => {
@@ -64,19 +68,6 @@ class Canvas extends Component<IAppProps, IAppState> {
     return this.resizeImageHeight(image, imageHeight, imageWidth);
   };
 
-  onDoubleClickText = e => {
-    const textPosition = e.target.absolutePosition();
-    const stageBox = e.target
-      .getStage()
-      .container()
-      .getBoundingClientRect();
-    const areaPosition = {
-      x: stageBox.left + textPosition.x,
-      y: stageBox.top + textPosition.y
-    };
-    console.log(areaPosition);
-  };
-
   async componentDidUpdate(prevProps) {
     const { image } = this.props;
     if (this.props.image !== prevProps.image) {
@@ -87,27 +78,67 @@ class Canvas extends Component<IAppProps, IAppState> {
     }
   }
 
-  render() {
-    const { backgroundImage, canvasHeight, canvasWidth } = this.state;
-    if (!process.browser) {
-      return null;
+  handleStageMouseDown = e => {
+    // If the thing we are clicking is the canvas,
+    // unselect the transformer
+    const { target } = e;
+    if (target === target.getStage()) {
+      this.setState({
+        selectedShapeName: ''
+      });
+      return;
     }
+    // If the thing we are clicking is the transformer - do nothing
+    const clickedOnTransformer = target.getParent().className === 'Transformer';
+    if (clickedOnTransformer) {
+      return;
+    }
+
+    // If the thing we are clicking has no name, do nothing
+    const name = target.name();
+    if (!name) {
+      return;
+    }
+    // find clicked rect by its name
+    this.setState({
+      selectedShapeName: name
+    });
+  };
+
+  render() {
+    const {
+      backgroundImage,
+      canvasHeight,
+      canvasWidth,
+      selectedShapeName
+    } = this.state;
+    const { textBlocks } = this.props;
     return (
-      <Card css={canvasStyle}>
-        <Stage width={canvasWidth} height={canvasHeight}>
-          <BackgroundImage
-            backgroundImage={backgroundImage}
-            canvasHeight={canvasHeight}
-            canvasWidth={canvasWidth}
-          />
-          <Layer>
-            <Text
-              onDblClick={this.onDoubleClickText}
-              text='Try to drag a star'
-              draggable={true}
+      <Card elevation={Elevation.ONE} css={canvasStyle}>
+        {process.browser && (
+          <Stage
+            width={canvasWidth}
+            height={canvasHeight}
+            onMouseDown={this.handleStageMouseDown}
+          >
+            <BackgroundImage
+              backgroundImage={backgroundImage}
+              canvasHeight={canvasHeight}
+              canvasWidth={canvasWidth}
             />
-          </Layer>
-        </Stage>
+            <Layer>
+              {Object.values(textBlocks).map(textBlock => {
+                return <Text key={textBlock.id} {...textBlock} />;
+              })}
+              <TransformerComponent
+                resizeEnabled={true}
+                rotateEnabled={true}
+                borderEnabled={true}
+                selectedShapeName={selectedShapeName}
+              />
+            </Layer>
+          </Stage>
+        )}
       </Card>
     );
   }

@@ -1,54 +1,28 @@
 /** @jsx jsx */
-import {
-  Card,
-  Elevation,
-  FormGroup,
-  H5,
-  InputGroup,
-  Label,
-  NumericInput,
-  Pre
-} from '@blueprintjs/core';
 import { jsx } from '@emotion/core';
-import React from 'react';
-import {
-  ageButtonWrapper,
-  buttonLeftStyle,
-  buttonRightStyle,
-  sidebarContainerStyle
-} from './style';
+import React, { Fragment } from 'react';
 
-export interface ILeftSidebarProps {}
+import ContactInformation from './contactInformation';
+import PetInformation from './petInformation';
+import TextBlocksCreator from './textBlocksCreator';
+import { ITextBlocksConfigPanelState } from './textBlocksCreator/panel';
+
+export interface ILeftSidebarProps {
+  onTextChanged: (arg1: ITextBlocksConfigPanelState) => void;
+}
 
 export default class LeftSidebar extends React.Component<
   ILeftSidebarProps,
   any
 > {
   render() {
+    const { onTextChanged } = this.props;
     return (
-      <Card elevation={Elevation.ONE} css={sidebarContainerStyle}>
-        <div>
-          <FormGroup label='Nombre'>
-            <InputGroup placeholder='Nombre' intent='primary' />
-          </FormGroup>
-        </div>
-        <div>
-          <FormGroup label='Edad'>
-            <div css={ageButtonWrapper}>
-              <InputGroup
-                placeholder='Años'
-                intent='primary'
-                css={buttonLeftStyle}
-              />
-              <InputGroup
-                placeholder='Meses'
-                intent='primary'
-                css={buttonRightStyle}
-              />
-            </div>
-          </FormGroup>
-        </div>
-      </Card>
+      <div>
+        <PetInformation />
+        <ContactInformation />
+        <TextBlocksCreator onTextChanged={onTextChanged} />
+      </div>
     );
   }
 }
