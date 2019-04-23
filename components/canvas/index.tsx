@@ -111,7 +111,7 @@ class Canvas extends Component<IAppProps, IAppState> {
       selectedShapeName
     } = this.state;
     return (
-      <Card css={canvasStyle}>
+      <Card elevation={Elevation.ONE} css={canvasStyle}>
         {process.browser && (
           <Stage
             width={canvasWidth}

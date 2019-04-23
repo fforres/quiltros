@@ -4,6 +4,7 @@ import { jsx } from '@emotion/core';
 import React from 'react';
 import Canvas from '../components/canvas';
 import LeftSidebar from '../components/leftSidebar';
+import { ITextBlocksConfigPanelState } from '../components/leftSidebar/textBlocksCreator/panel';
 import Nav from '../components/nav';
 import { containerStyle } from './styles';
 
@@ -22,15 +23,19 @@ class Home extends React.PureComponent<any, IHomeState> {
     });
   };
 
+  onTextChanged = (s: ITextBlocksConfigPanelState) => {
+    console.log(s);
+  };
+
   render() {
-    const { canvasImage } = this.state;
+    const { canvasImage, textBlocks } = this.state;
 
     return (
       <div>
         <Nav onImageUploaded={this.setCanvasImage} />
         <section data-name='bodycontainer' css={containerStyle}>
-          <LeftSidebar />
-          <Canvas image={canvasImage} />
+          <LeftSidebar onTextChanged={this.onTextChanged} />
+          <Canvas textBlocks={textBlocks} image={canvasImage} />
         </section>
       </div>
     );
