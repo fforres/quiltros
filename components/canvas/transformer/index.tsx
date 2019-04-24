@@ -6,21 +6,23 @@ import { Transformer } from 'react-konva';
 
 interface ITransformerComponent extends Konva.TransformerConfig {
   selectedShapeName: string;
-  minWidth?: number;
 }
 
 class TransformerComponent extends React.Component<ITransformerComponent> {
   static defaultProps = {
     minWidth: 50
   };
+
   transformerRef = createRef<any>();
 
   componentDidMount() {
     this.checkNode();
   }
+
   componentDidUpdate() {
     this.checkNode();
   }
+
   checkNode() {
     // We manually attach or detach a node to the Transformer
     const ref = this.transformerRef.current!;

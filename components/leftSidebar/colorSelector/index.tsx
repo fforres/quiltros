@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Icon } from '@blueprintjs/core';
+import { Button, Icon } from '@blueprintjs/core';
 import * as React from 'react';
 
 export interface IColorSelectorProps {
