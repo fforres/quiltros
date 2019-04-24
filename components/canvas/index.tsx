@@ -132,7 +132,7 @@ class Canvas extends Component<IAppProps, IAppState> {
               })}
               <TransformerComponent
                 resizeEnabled={true}
-                rotateEnabled={true}
+                rotateEnabled={false}
                 borderEnabled={true}
                 selectedShapeName={selectedShapeName}
               />

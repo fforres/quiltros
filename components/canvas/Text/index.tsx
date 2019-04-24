@@ -71,7 +71,7 @@ class CanvasText extends React.Component<ICanvasText, any> {
     };
   };
   render() {
-    const { id, text } = this.props;
+    const { id, text, color } = this.props;
     const { fontSize } = this.state;
     return (
       <Text
@@ -79,6 +79,7 @@ class CanvasText extends React.Component<ICanvasText, any> {
         fontSize={fontSize}
         ref={this.transformerRef}
         name={id}
+        fill={color}
         text={text}
         transformsEnabled='position'
         draggable={true}

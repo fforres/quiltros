@@ -55,16 +55,14 @@ export default class TextBlocksCreator extends React.Component<
             })}
           </ButtonGroup>
         </FormGroup>
-        {TextBlocksCreator.buttonsKeys.map(key => {
-          return (
-            <TextBlocksConfigPanel
-              key={key}
-              id={key}
-              onChange={onTextChanged}
-              shown={selected === key}
-            />
-          );
-        })}
+        {TextBlocksCreator.buttonsKeys.map(key => (
+          <TextBlocksConfigPanel
+            key={key}
+            id={key}
+            onChange={onTextChanged}
+            shown={selected === key}
+          />
+        ))}
       </Card>
     );
   }

@@ -8,6 +8,7 @@ import {
 } from '@blueprintjs/core';
 import { jsx } from '@emotion/core';
 import React from 'react';
+import ColorSelector from '../colorSelector';
 import { hiddenStyle, shownStyle } from './style';
 
 export interface ITextBlocksConfigPanelProps {
@@ -28,6 +29,8 @@ export default class TextBlocksConfigPanel extends React.Component<
   ITextBlocksConfigPanelProps,
   ITextBlocksConfigPanelState
 > {
+  static colors = ['white', 'black', 'red', 'green', 'purple', 'yellow'];
+
   constructor(props) {
     super(props);
     this.state = {
@@ -51,9 +54,13 @@ export default class TextBlocksConfigPanel extends React.Component<
     this.setState({ fontSize }, this.change);
   };
 
+  setSelectedColor = color => {
+    this.setState({ color }, this.change);
+  };
+
   render() {
     const { shown } = this.props;
-    const { fontSize } = this.state;
+    const { fontSize, color } = this.state;
     return (
       <div css={[hiddenStyle, shown && shownStyle]}>
         <FormGroup label='Texto'>
@@ -87,6 +94,18 @@ export default class TextBlocksConfigPanel extends React.Component<
             >
               <Icon iconSize={24} icon='font' />
             </Button>
+          </ButtonGroup>
+        </FormGroup>
+        <FormGroup label='Color'>
+          <ButtonGroup fill={true}>
+            {TextBlocksConfigPanel.colors.map(el => (
+              <ColorSelector
+                key={el}
+                color={el}
+                isActive={el === color}
+                onColorClicked={this.setSelectedColor}
+              />
+            ))}
           </ButtonGroup>
         </FormGroup>
       </div>
