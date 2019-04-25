@@ -11,8 +11,8 @@ import {
   TextArea
 } from '@blueprintjs/core';
 import { jsx } from '@emotion/core';
-import React from 'react';
-import { sidebarContainerStyle } from './style';
+import React, { FormEvent } from 'react';
+import { fakeRadioGroupStyle, sidebarContainerStyle } from './style';
 
 export interface IPetInformationProps {}
 
@@ -21,10 +21,11 @@ export default class PetInformation extends React.Component<
   any
 > {
   state = {
-    size: ''
+    size: undefined
   };
 
-  onRadioGroupChanged = e => this.setState({ size: e.currentTarget.value });
+  onRadioGroupChanged = (e: FormEvent<HTMLInputElement>) =>
+    this.setState({ size: e.currentTarget.value });
 
   render() {
     const { size } = this.state;
@@ -33,54 +34,82 @@ export default class PetInformation extends React.Component<
         <H4>Información</H4>
         <div>
           <FormGroup label='Nombre *'>
-            <InputGroup placeholder='Nombre' intent='primary' required={true} />
+            <InputGroup
+              name='nombre-mascota'
+              placeholder='Nombre'
+              intent='primary'
+              required
+            />
           </FormGroup>
         </div>
         <div>
           <FormGroup>
             <Switch
+              required
+              name='esterilizado'
               label='Esterilizado'
               innerLabel='No'
-              inline={true}
+              inline
               innerLabelChecked='Si'
             />
             <Switch
+              required
+              name='chip'
               label='Chip'
               innerLabel='No'
-              inline={true}
+              inline
               innerLabelChecked='Si'
             />
             <Switch
+              required
+              name='vacunas'
               label='Vacunas al día'
               innerLabel='No'
-              inline={true}
+              inline
               innerLabelChecked='Si'
             />
           </FormGroup>
         </div>
         <div>
-          <RadioGroup
-            onChange={this.onRadioGroupChanged}
-            label='Tamaño *'
-            name='size'
-            selectedValue={size}
-          >
-            <Radio label='Pequeño' value='s' />
-            <Radio label='Mediano' value='m' />
-            <Radio label='Grande' value='l' />
-          </RadioGroup>
+          <FormGroup label='Tamaño *'>
+            <Radio
+              name='tamaño-mascota'
+              value={size}
+              checked={Boolean(size)}
+              required
+              css={fakeRadioGroupStyle}
+            />
+            <Radio
+              onChange={this.onRadioGroupChanged}
+              checked={size === 's'}
+              label='Pequeño'
+              value='s'
+            />
+            <Radio
+              onChange={this.onRadioGroupChanged}
+              checked={size === 'm'}
+              label='Mediano'
+              value='m'
+            />
+            <Radio
+              onChange={this.onRadioGroupChanged}
+              checked={size === 'l'}
+              label='Grande'
+              value='l'
+            />
+          </FormGroup>
         </div>
         <div>
           <FormGroup label='Edad'>
-            <InputGroup placeholder='Años' />
+            <InputGroup name='edad-mascota' placeholder='Años' />
           </FormGroup>
         </div>
         <div>
           <FormGroup label='Información Extra'>
             <TextArea
-              fill={true}
-              growVertically={true}
-              name='Extra'
+              fill
+              growVertically
+              name='informacion-extra-mascota'
               placeholder='Extra'
             />
           </FormGroup>

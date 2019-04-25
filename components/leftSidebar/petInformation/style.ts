@@ -6,13 +6,8 @@ export const sidebarContainerStyle = css`
   width: 300px;
 `;
 
-export const ageButtonWrapper = css`
-  display: inline-flex;
-`;
-export const buttonLeftStyle = css`
-  padding-right: 0.5rem;
-`;
-
-export const buttonRightStyle = css`
-  padding-left: 0.5rem;
+export const fakeRadioGroupStyle = css`
+  opacity: 0;
+  height: 1;
+  position: absolute;
 `;
