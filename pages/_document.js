@@ -6,9 +6,11 @@ ReactGA.initialize('UA-139082777-1', { debug: true, gaOptions: {
   alwaysSendReferrer: true,
   cookieName: '_quiltros_ga'
 }})
-ReactGA.pageview(window.location.pathname + window.location.search)
 
 class MyDocument extends Document {
+  componentDidMount() {
+    ReactGA.pageview(window.location.pathname + window.location.search)
+  }
   static async getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx);
     return { ...initialProps };
