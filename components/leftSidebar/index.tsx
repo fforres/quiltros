@@ -1,8 +1,8 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 import React, { FormEvent } from 'react';
+import ReactGA from 'react-ga';
 
-import { Button } from '@blueprintjs/core';
 import ContactInformation from './contactInformation';
 import PetInformation from './petInformation';
 import SubmitButton from './submitButton';
@@ -64,6 +64,13 @@ export default class LeftSidebar extends React.Component<
         }),
         {}
       );
+    ReactGA.send({});
+    ReactGA.event({
+      action: 'adoption-created',
+      category: 'User',
+      value: 1,
+      ...formData
+    });
   };
 
   onFormChange = (e: FormEvent<HTMLFormElement>) => {
