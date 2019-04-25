@@ -1,10 +1,8 @@
 /** @jsx jsx */
-import { Button, Card, Elevation } from '@blueprintjs/core';
+import { Alignment, Button, Navbar } from '@blueprintjs/core';
 import { jsx } from '@emotion/core';
 import React, { Component, createRef } from 'react';
-// import { Card, Elevation } from "@blueprintjs/core";
-import Icon from '../icon';
-import { buttonStyle, fileUpload, navContainerStyle, ulStyle } from './styles';
+import { fileUpload, navContainerStyle } from './styles';
 
 interface INavProps {
   onImageUploaded: (prop1: HTMLImageElement) => void;
@@ -36,27 +34,26 @@ class Nav extends Component<INavProps> {
 
   render() {
     return (
-      <nav>
-        <Card css={navContainerStyle}>
-          <ul css={ulStyle}>
-            <li />
-            <Button
-              icon='upload'
-              intent='primary'
-              rightIcon='caret-down'
-              text='Upload image'
-              onClick={this.openFile}
-            />
-            <input
-              ref={this.inputFileRef}
-              onChange={this.onFileUploaded}
-              type='file'
-              css={fileUpload}
-            />
-            <li />
-          </ul>
-        </Card>
-      </nav>
+      <Navbar css={navContainerStyle}>
+        <Navbar.Group align={Alignment.LEFT}>
+          <Navbar.Heading>Quiltro</Navbar.Heading>
+          <Navbar.Divider />
+        </Navbar.Group>
+        <Navbar.Group align={Alignment.RIGHT}>
+          <Button
+            intent='primary'
+            rightIcon='upload'
+            text='Upload image'
+            onClick={this.openFile}
+          />
+          <input
+            ref={this.inputFileRef}
+            onChange={this.onFileUploaded}
+            type='file'
+            css={fileUpload}
+          />
+        </Navbar.Group>
+      </Navbar>
     );
   }
 }

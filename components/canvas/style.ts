@@ -6,6 +6,7 @@ export const canvasStyle = css`
   width: 35rem;
   justify-content: center;
   & .konvajs-content {
-    border: solid 1px grey;
+    background: ghostwhite;
+    border: solid 1px lightgray;
   }
 `;

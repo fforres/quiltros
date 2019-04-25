@@ -29,13 +29,13 @@ export default class TextBlocksConfigPanel extends React.Component<
   ITextBlocksConfigPanelProps,
   ITextBlocksConfigPanelState
 > {
-  static colors = ['white', 'black', 'red', 'green', 'purple', 'yellow'];
+  static colors = ['black', 'red', 'green', 'purple', 'yellow', 'white'];
 
   constructor(props) {
     super(props);
     this.state = {
       borderColor: 'black',
-      color: 'white',
+      color: 'black',
       fontSize: 'medium',
       id: props.id,
       text: ''
