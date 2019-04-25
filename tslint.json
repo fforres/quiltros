@@ -9,6 +9,7 @@
     "exclude": ["migrations/*", "*.js"]
   },
   "rules": {
+    "jsx-boolean-value": false,
     "member-access": [true, "no-public"],
     "no-empty-interface": false,
     "no-console": false,

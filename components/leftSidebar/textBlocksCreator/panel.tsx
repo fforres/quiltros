@@ -65,30 +65,30 @@ export default class TextBlocksConfigPanel extends React.Component<
       <div css={[hiddenStyle, shown && shownStyle]}>
         <FormGroup label='Texto'>
           <TextArea
-            fill={true}
-            growVertically={true}
+            fill
+            growVertically
             name='Texto'
             onChange={this.onMainTextChanged}
           />
         </FormGroup>
         <FormGroup label='Tamaño'>
-          <ButtonGroup fill={true}>
+          <ButtonGroup fill>
             <Button
-              large={true}
+              large
               active={fontSize === 'small'}
               onClick={this.setHeight('small')}
             >
               <Icon iconSize={10} icon='font' />
             </Button>
             <Button
-              large={true}
+              large
               active={fontSize === 'medium'}
               onClick={this.setHeight('medium')}
             >
               <Icon iconSize={16} icon='font' />
             </Button>
             <Button
-              large={true}
+              large
               active={fontSize === 'large'}
               onClick={this.setHeight('large')}
             >
@@ -97,7 +97,7 @@ export default class TextBlocksConfigPanel extends React.Component<
           </ButtonGroup>
         </FormGroup>
         <FormGroup label='Color'>
-          <ButtonGroup fill={true}>
+          <ButtonGroup fill>
             {TextBlocksConfigPanel.colors.map(el => (
               <ColorSelector
                 key={el}

@@ -16,22 +16,30 @@ export default class ContactInformation extends React.Component<
         <H4>Datos de contacto</H4>
         <div>
           <FormGroup label='Nombre'>
-            <InputGroup placeholder='Nombre' name='Nombre' />
+            <InputGroup placeholder='Nombre' name='nombre-contacto' required />
           </FormGroup>
         </div>
         <div>
           <FormGroup label='Teléfono'>
-            <InputGroup placeholder='Teléfono' name='Teléfono' />
+            <InputGroup
+              placeholder='Teléfono'
+              name='telefono-contacto'
+              required
+            />
           </FormGroup>
         </div>
         <div>
           <FormGroup label='Whatsapp'>
-            <InputGroup placeholder='Whatsapp' name='Whatsapp' />
+            <InputGroup placeholder='Whatsapp' name='whatsapp-contacto' />
           </FormGroup>
         </div>
         <div>
           <FormGroup label='Email'>
-            <InputGroup name='Email' type='email' placeholder='Email' />
+            <InputGroup
+              name='Email'
+              type='email-contacto'
+              placeholder='Email'
+            />
           </FormGroup>
         </div>
       </Card>

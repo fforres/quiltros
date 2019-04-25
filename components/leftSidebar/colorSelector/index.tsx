@@ -16,7 +16,7 @@ class ColorSelector extends React.Component<IColorSelectorProps, any> {
   render() {
     const { isActive, color } = this.props;
     return (
-      <Button large={true} active={isActive} onClick={this.onClick}>
+      <Button large active={isActive} onClick={this.onClick}>
         <Icon iconSize={24} icon='symbol-square' color={color} />
       </Button>
     );

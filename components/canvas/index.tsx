@@ -131,9 +131,9 @@ class Canvas extends Component<IAppProps, IAppState> {
                 return <Text key={textBlock.id} {...textBlock} />;
               })}
               <TransformerComponent
-                resizeEnabled={true}
+                resizeEnabled
                 rotateEnabled={false}
-                borderEnabled={true}
+                borderEnabled
                 selectedShapeName={selectedShapeName}
               />
             </Layer>

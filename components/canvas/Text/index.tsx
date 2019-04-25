@@ -82,7 +82,7 @@ class CanvasText extends React.Component<ICanvasText, any> {
         fill={color}
         text={text}
         transformsEnabled='position'
-        draggable={true}
+        draggable
         dragBoundFunc={this.onDrag}
         onTransform={this.onTransform}
       />

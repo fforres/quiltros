@@ -6,4 +6,5 @@ export const containerStyle = css`
   justify-content: center;
   align-items: flex-start;
   padding-top: 1rem;
+  padding-bottom: 4rem;
 `;

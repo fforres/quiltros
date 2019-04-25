@@ -41,18 +41,16 @@ export default class TextBlocksCreator extends React.Component<
       <Card elevation={Elevation.ONE} css={sidebarContainerStyle}>
         <H4>Agregar Texto</H4>
         <FormGroup>
-          <ButtonGroup fill={true} large={true}>
-            {TextBlocksCreator.buttonsKeys.map(key => {
-              return (
-                <Button
-                  icon={key as any}
-                  key={key}
-                  css={customButtonStyle}
-                  active={selected === key}
-                  onClick={this.getOnButtonClicked(key)}
-                />
-              );
-            })}
+          <ButtonGroup fill large>
+            {TextBlocksCreator.buttonsKeys.map(key => (
+              <Button
+                icon={key as any}
+                key={key}
+                css={customButtonStyle}
+                active={selected === key}
+                onClick={this.getOnButtonClicked(key)}
+              />
+            ))}
           </ButtonGroup>
         </FormGroup>
         {TextBlocksCreator.buttonsKeys.map(key => (
