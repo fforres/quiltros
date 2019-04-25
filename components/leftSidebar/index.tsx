@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import ContactInformation from './contactInformation';
 import PetInformation from './petInformation';
