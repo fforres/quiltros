@@ -13,9 +13,28 @@ const nextConfig = {
     const { buildId, dev } = options
     config.plugins.push(
       new webpack.DefinePlugin({
-        'process.env.SENTRY_RELEASE': JSON.stringify(COMMIT_REF)
+        'process.env.SENTRY_RELEASE': JSON.stringify(process.env.COMMIT_REF)
       })
     )
+    
+    if (isServer) { 
+      config.plugins.push(
+        new SentryPlugin({
+          release: process.env.COMMIT_REF,
+          include: './.next/server/bundles/pages',
+          urlPrefix:`~/_next/${buildId}/page`,
+        })
+      )
+    }
+
+    config.plugins.push( new SentryPlugin({
+      release: process.env.COMMIT_REF,
+      include: './.next/static',
+      urlPrefix: `~/_next/static`,
+    })
+  )
+
+
     config.plugins.push(
       new SentryPlugin({
         organization: process.env.SENTRY_ORG,
@@ -24,26 +43,27 @@ const nextConfig = {
         release: process.env.COMMIT_REF
       })
     )
-    config.plugins.push(
-      new SentryCliPlugin({
-        include: ['out', '.next'],
-      }),
-    )
+
+    // config.plugins.push(
+    //   new SentryCliPlugin({
+    //     include: ['out', '.next'],
+    //   }),
+    // )
     // if (!dev) { 
-      // config.plugins.push( 
-      //   new SentryPlugin({ 
-      //     release: process.env.RELEASE,
-      //     include: './.next/server/static',
-      //     urlPrefix: `~/_next/${buildId}/page`,
-      //   })
-      // )
-      // config.plugins.push(
-      //   new SentryPlugin({
-      //     release: process.env.RELEASE,
-      //     include: './.next/static',
-      //     urlPrefix: `~/_next/static`,
-      //   })
-      // )
+    //   config.plugins.push( 
+    //     new SentryPlugin({ 
+    //       release: process.env.RELEASE,
+    //       include: './.next/server/static',
+    //       urlPrefix: `~/_next/${buildId}/page`,
+    //     })
+    //   )
+    //   config.plugins.push(
+    //     new SentryPlugin({
+    //       release: process.env.RELEASE,
+    //       include: './.next/static',
+    //       urlPrefix: `~/_next/static`,
+    //     })
+    //   )
     // }
     return config;
   },
