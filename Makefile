@@ -8,7 +8,7 @@ upload_maps:
 	echo ''
 	echo ''
 
-	echo "GIT_HASH $(GIT_HASH)"
+	echo "GIT_HASH ${}GIT_HASH"
 
 	echo '[SENTRY] - Sentry Version'
 	sentry-cli --version
