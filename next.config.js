@@ -27,44 +27,14 @@ const nextConfig = {
       )
     }
 
-    config.plugins.push( new SentryPlugin({
-      release: process.env.COMMIT_REF,
-      include: './.next/static',
-      urlPrefix: `~/_next/static`,
-    })
-  )
-
-
     config.plugins.push(
       new SentryPlugin({
-        organization: process.env.SENTRY_ORG,
-        project:  process.env.SENTRY_PROJECT,
-        apiKey: process.env.SENTRY_API_KEY,
-        release: process.env.COMMIT_REF
+        release: process.env.COMMIT_REF,
+        include: './.next/static',
+        urlPrefix: `~/_next/static`,
       })
     )
 
-    // config.plugins.push(
-    //   new SentryCliPlugin({
-    //     include: ['out', '.next'],
-    //   }),
-    // )
-    // if (!dev) { 
-    //   config.plugins.push( 
-    //     new SentryPlugin({ 
-    //       release: process.env.RELEASE,
-    //       include: './.next/server/static',
-    //       urlPrefix: `~/_next/${buildId}/page`,
-    //     })
-    //   )
-    //   config.plugins.push(
-    //     new SentryPlugin({
-    //       release: process.env.RELEASE,
-    //       include: './.next/static',
-    //       urlPrefix: `~/_next/static`,
-    //     })
-    //   )
-    // }
     return config;
   },
   exportPathMap: function() {
