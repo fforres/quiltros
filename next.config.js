@@ -3,6 +3,7 @@ const withTypescript = require('@zeit/next-typescript');
 const withCSS = require('@zeit/next-css');
 const SentryCliPlugin = require('@sentry/webpack-plugin');
 const withSourceMaps = require('@zeit/next-source-maps')()
+const SentryPlugin = require('webpack-sentry-plugin');
 
 const nextConfig = {
   env: {
@@ -12,7 +13,15 @@ const nextConfig = {
     const { buildId, dev } = options
     config.plugins.push(
       new webpack.DefinePlugin({
-        'process.env.SENTRY_RELEASE': JSON.stringify(buildId)
+        'process.env.SENTRY_RELEASE': JSON.stringify(COMMIT_REF)
+      })
+    )
+    config.plugins.push(
+      new SentryPlugin({
+        organization: process.env.SENTRY_ORG,
+        project:  process.env.SENTRY_PROJECT,
+        apiKey: process.env.SENTRY_API_KEY,
+        release: process.env.COMMIT_REF
       })
     )
     // if (!dev) { 
