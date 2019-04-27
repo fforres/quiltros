@@ -2,10 +2,10 @@
 import '@blueprintjs/core/lib/css/blueprint.css';
 import { jsx } from '@emotion/core';
 import React from 'react';
-import Canvas from '../components/canvas';
-import LeftSidebar from '../components/leftSidebar';
-import { ITextBlocksConfigPanelState } from '../components/leftSidebar/textBlocksCreator/panel';
-import Nav from '../components/nav';
+import Canvas from '../client/components/canvas';
+import LeftSidebar from '../client/components/leftSidebar';
+import { ITextBlocksConfigPanelState } from '../client/components/leftSidebar/textBlocksCreator/panel';
+import Nav from '../client/components/nav';
 import { containerStyle } from './styles';
 
 interface IHomeState {
