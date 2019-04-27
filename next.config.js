@@ -24,6 +24,11 @@ const nextConfig = {
         release: process.env.COMMIT_REF
       })
     )
+    config.plugins.push(
+      new SentryCliPlugin({
+        include: ['out', '.next'],
+      }),
+    )
     // if (!dev) { 
       // config.plugins.push( 
       //   new SentryPlugin({ 
