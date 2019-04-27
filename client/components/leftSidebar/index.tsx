@@ -64,7 +64,6 @@ export default class LeftSidebar extends React.Component<
         }),
         {}
       );
-    ReactGA.send({});
     ReactGA.event({
       action: 'adoption-created',
       category: 'User',
