@@ -4,7 +4,7 @@ node_js:
 notifications:
   slack:
     secure: bCenlfxYVOOLeKGSt1spKwSLXxW3jfVMkOLeYo2vdMWB+OmMPBdl6Gq2R2vJxpLeLfteazqWFgyNpNeuyDJe90Wv61hkBfG+kEbMzu+EYjOyoX9YkR3P8wNGzywmyA6+VEdW6vnsP1Z61YNfVOMvTcmpItsb1lKGZ9l14wukTb/74/8EXO6VuCONpY+xcN2UPeUNFI5RdN+8HSfgv++FYEMip1BlEEjd0ZK2P/IyU3+MWGByKqLYLf4gCwKmDfNyxX/QW1cJf3NjaveoJjk9NflrccnHejXYJ6ymKlxfOnFLLhpe+CmnoSrv8nkip81yH+vwl3cZywqsTCjawadRLwVnZhPzX0xP6f3zTERm2KvOu/4xqV71WuLQtOlehIpWj9aJU2qdUVqKfEqowWjZQikHY+TCBK1Vbg3F4b0Wjj1wJSDy2/Nq0JfXHqdLkgrRZ0so/taczBgEB2H9b8YHTN5q5CJUTmbUbo7vw8M3UygebXeZzwnW5CQJPugCW41rooyN+r1Q/2Z11OjWCD2ekZAOqAjPMVrN2ph1zaHlQuifJ84lxWkTqlYRBXgTyiPfSqYJMeTWi7mqml6jW5fWOnZYWgob+duCrwhKHjjvcsdEb2CnBIGImdyKLL5/Jz6EvDOCQ14wKFDRjZm0Pi7HucNO9GBY3lnyId1ALat4ywk=
-script: npm run export
+script: npm run build && npm run export
 deploy:
   provider: script
   script: npm run deploy
