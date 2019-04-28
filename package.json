@@ -2,6 +2,7 @@
   "name": "create-next-example-app",
   "scripts": {
     "dev": "next dev",
+    "dev:api": "node --inspect -r ts-node/register ./lambdas",
     "dc": "docker-compose up",
     "build": "next build",
     "export": "next export",
@@ -23,6 +24,7 @@
     "konva": "^3.2.5",
     "nanoid": "^2.0.1",
     "next": "^8.0.4",
+    "path-match": "^1.2.4",
     "pg": "^7.10.0",
     "polished": "^3.2.0",
     "react": "^16.8.6",
