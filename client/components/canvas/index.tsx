@@ -1,7 +1,7 @@
 /** @jsx jsx */
-import { Card, Elevation } from '@blueprintjs/core';
+import { Button, Card, Elevation } from '@blueprintjs/core';
 import { jsx } from '@emotion/core';
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import { canvasStyle } from './style';
 
 import { Layer, Stage } from 'react-konva';
@@ -26,6 +26,8 @@ class Canvas extends Component<IAppProps, IAppState> {
     canvasWidth: 500,
     selectedShapeName: ''
   };
+
+  stageRef = createRef<any>();
 
   resizeImageHeight = (img, newHeight, newWidth) => {
     const canvas = document.createElement('canvas');
@@ -105,6 +107,34 @@ class Canvas extends Component<IAppProps, IAppState> {
     });
   };
 
+  dataURItoBlob = dataURI => {
+    let byteString;
+    let mimestring;
+
+    if (dataURI.split(',')[0].indexOf('base64') !== -1) {
+      byteString = atob(dataURI.split(',')[1]);
+    } else {
+      byteString = decodeURI(dataURI.split(',')[1]);
+    }
+    mimestring = dataURI
+      .split(',')[0]
+      .split(':')[1]
+      .split(';')[0];
+    const content = new Array();
+    for (let i = 0; i < byteString.length; i++) {
+      content[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([new Uint8Array(content)], { type: mimestring });
+  };
+
+  onExportImageClicked = () => {
+    const imgB64 = this.stageRef.current!.toDataURL({ pixelRatio: 3 });
+    const blob = this.dataURItoBlob(imgB64);
+    console.log(blob);
+    // let fd = new FormData(document.forms[0]);
+    // fd.append("canvasImage", blob);
+  };
+
   render() {
     const {
       backgroundImage,
@@ -117,6 +147,7 @@ class Canvas extends Component<IAppProps, IAppState> {
       <Card elevation={Elevation.ONE} css={canvasStyle}>
         {process.browser && (
           <Stage
+            ref={this.stageRef}
             width={canvasWidth}
             height={canvasHeight}
             onMouseDown={this.handleStageMouseDown}
@@ -139,6 +170,7 @@ class Canvas extends Component<IAppProps, IAppState> {
             </Layer>
           </Stage>
         )}
+        <Button onClick={this.onExportImageClicked}> Export Image </Button>
       </Card>
     );
   }
