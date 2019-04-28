@@ -1,5 +1,11 @@
 {
   "version": 2,
   "name": "quiltro",
-  "builds": [{ "src": "package.json", "use": "@now/static-build" }]
+  "builds": [
+    { "src": "./out", "use": "@now/static" },
+    { "src": "./lambdas/**/*.ts", "use": "@now/node" }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/lambdas/$1" }
+  ]
 }
