@@ -42,7 +42,7 @@ const nextConfig = {
       '/': { page: '/' }
     }
   },
-  target: 'serverless',
+  target: 'server',
   generateBuildId: async () => {
     if (process.env.COMMIT_REF) {
       return process.env.COMMIT_REF
