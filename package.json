@@ -4,7 +4,8 @@
     "dev": "nodemon",
     "dc": "docker-compose up",
     "build": "next build",
-    "export": "next export"
+    "export": "next export",
+    "now-build": "next build && next export -o dist"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.15.1",
