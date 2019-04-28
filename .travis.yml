@@ -7,7 +7,7 @@ notifications:
 script: npm run build && npm run export
 deploy:
   provider: script
-  script: npm run deploy
+  script: ./node_modules/.bin/now --token=$NOW_TOKEN --public
   skip_cleanup: true
   on:
     branch: master
