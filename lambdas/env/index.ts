@@ -1,6 +1,8 @@
-import { IncomingMessage, ServerResponse } from "http"
+import { IncomingMessage, ServerResponse } from 'http'
+import { lambdaJsonResponseHandler } from '../utils';
 
-export default async (_: IncomingMessage, res: ServerResponse) => {
-  res.writeHead(200, { "Content-Type": "application/json" });
-  res.end(JSON.stringify({}));
+export default async (req: IncomingMessage, res: ServerResponse) => {
+  lambdaJsonResponseHandler(req, res, async () => {
+    return {}
+  })
 };
