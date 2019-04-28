@@ -15,7 +15,7 @@ export default class SubmitButton extends React.Component {
         <Button type='submit' intent='none' rightIcon='floppy-disk'>
           Crear Imagen
         </Button>
-        <Button intent='none' rightIcon='floppy-disk' onClick={this.onClick}>
+        <Button intent='danger' rightIcon='floppy-disk' onClick={this.onClick}>
           Error
         </Button>
       </div>

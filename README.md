@@ -1,4 +1,4 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/f84ee8ab-9ae5-44d2-9351-346cdae91c33/deploy-status)](https://app.netlify.com/sites/agitated-keller-32e43b/deploys)
+[![Build Status](https://travis-ci.org/fforres/quiltros.svg?branch=master)](https://travis-ci.org/fforres/quiltros)
 
 This project was bootstrapped with [Create Next App](https://github.com/segmentio/create-next-app).
 
