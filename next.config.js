@@ -42,6 +42,7 @@ const nextConfig = {
       '/': { page: '/' }
     }
   },
+  target: 'server',
   generateBuildId: async () => {
     if (process.env.COMMIT_REF) {
       return process.env.COMMIT_REF
