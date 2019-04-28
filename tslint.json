@@ -10,6 +10,7 @@
   },
   "rules": {
     "interface-name": false,
+    
     "no-namespace": false,
     "jsx-boolean-value": false,
     "member-access": [true, "no-public"],

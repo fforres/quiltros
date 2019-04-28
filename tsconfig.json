@@ -5,6 +5,7 @@
     "jsx": "preserve",
     "lib": ["dom", "es2017"],
     "module": "commonjs",
+    
     "moduleResolution": "node",
     "esModuleInterop": true,
     "noEmit": true,
