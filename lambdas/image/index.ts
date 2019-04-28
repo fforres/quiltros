@@ -1,6 +1,8 @@
+import { IncomingMessage, ServerResponse } from 'http'
 import aws from 'aws-sdk'
 
 import { accessKeyId, secretAccessKey } from '../env'
+import { lambdaJsonResponseHandler } from '../utils';
 
 aws.config.region = 'us-west-2'
 aws.config.setPromisesDependency(Promise)
@@ -12,7 +14,8 @@ export const s3Client = new aws.S3({
   }
 })
 
-export default async (_: IncomingMessage, res: ServerResponse) => {
-  res.writeHead(200, { "Content-Type": "application/json" });
-  res.end(JSON.stringify({}));
+export default async (req: IncomingMessage, res: ServerResponse) => {
+  lambdaJsonResponseHandler(req, res, async () => {
+    return {}
+  })
 };
