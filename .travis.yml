@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - 12
+notifications:
+  slack:
+    rooms:
+    - noders:8iNFFsfBgYStDDD8Mpu3qi4J#webhooks
+script: npm run export
+deploy:
+  provider: script
+  script: npm run deploy
+  skip_cleanup: true
+  on:
+    branch: master
