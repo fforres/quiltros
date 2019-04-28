@@ -1,14 +1,29 @@
 {
   "version": 2,
   "name": "quiltro",
-  
+
   "builds": [
-    { "src": "package.json", "use": "@now/static-build" },
-    { "src": "./lambdas/**/*.ts", "use": "@now/node" }
+    { 
+      "src": "package.json",
+      "use": "@now/static-build" 
+    },
+    { 
+      "src": "./lambdas/**/*.ts",
+      "use": "@now/node"
+    }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "/lambdas/$1" },
-    { "src": "/lambdas/(.*)", "dest": "/" },
-    { "src": "/lambdas", "dest": "/" }
+    { 
+      "src": "/api/(.*)",
+      "dest": "/lambdas/$1" 
+    },
+    { 
+      "src": "/lambdas/(.*)",
+      "dest": "/" 
+    },
+    { 
+      "src": "/lambdas",
+      "dest": "/"
+    }
   ]
 }
