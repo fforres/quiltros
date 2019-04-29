@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import '@blueprintjs/core/lib/css/blueprint.css';
 import { jsx } from '@emotion/core';
-import React from 'react';
+import React, { Component } from 'react';
 import Canvas from '../client/components/canvas';
 import LeftSidebar from '../client/components/leftSidebar';
 import { ITextBlocksConfigPanelState } from '../client/components/leftSidebar/textBlocksCreator/panel';
@@ -9,13 +9,15 @@ import Nav from '../client/components/nav';
 import { containerStyle } from './styles';
 
 interface IHomeState {
+  image?: Blob;
   canvasImage: HTMLImageElement | null;
   textBlocks: { [s: string]: ITextBlocksConfigPanelState };
 }
 
-class Home extends React.PureComponent<any, IHomeState> {
+class Home extends Component<any, IHomeState> {
   state = {
     canvasImage: null,
+    image: undefined,
     textBlocks: {}
   };
 
@@ -35,15 +37,26 @@ class Home extends React.PureComponent<any, IHomeState> {
     });
   };
 
+  onImageCreated = (image: Blob) => {
+    this.setState({ image });
+  };
+
   render() {
-    const { canvasImage, textBlocks } = this.state;
+    const { canvasImage, textBlocks, image } = this.state;
 
     return (
       <div>
         <Nav onImageUploaded={this.setCanvasImage} />
         <section data-name='bodycontainer' css={containerStyle}>
-          <LeftSidebar onTextChanged={this.onTextChanged} />
-          <Canvas textBlocks={textBlocks} image={canvasImage} />
+          <LeftSidebar
+            createdImage={image}
+            onTextChanged={this.onTextChanged}
+          />
+          <Canvas
+            onImageCreated={this.onImageCreated}
+            textBlocks={textBlocks}
+            image={canvasImage}
+          />
         </section>
       </div>
     );

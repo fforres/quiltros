@@ -1,21 +1,18 @@
 import glob from 'glob';
 import { IncomingMessage, ServerResponse } from 'http';
-import { createServer } from 'http';
 import { resolve } from 'path';
 import pathMatch from 'path-match';
 
 const routeMatcher = pathMatch();
 const postMatch = routeMatcher(`/api/:route`);
-const port = 3001;
 
-glob('./lambdas/*/index.ts', (err, files) => {
-  console.log(`Api ready @ :${port}`);
-  const maps = {};
-  files.forEach(current => {
-    const route = current.split('/')[2];
-    maps[route] = resolve(current);
-  }, {});
-  createServer((req: IncomingMessage, res: ServerResponse) => {
+export const lambdaHandler = (req: IncomingMessage, res: ServerResponse) => {
+  glob('./lambdas/*/index.ts', (err, files) => {
+    const maps = {};
+    files.forEach(current => {
+      const routeKey = current.split('/')[2];
+      maps[routeKey] = resolve(current);
+    }, {});
     const { route } = postMatch(req.url);
     if (maps[route]) {
       require(maps[route]).default(req, res);
@@ -26,5 +23,5 @@ glob('./lambdas/*/index.ts', (err, files) => {
         }
       });
     }
-  }).listen(port);
-});
+  });
+};

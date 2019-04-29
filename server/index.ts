@@ -1,23 +1,35 @@
-import fastifyCreator from 'fastify';
-import fastifyNextJS from 'fastify-nextjs';
+// This file doesn't go through babel or webpack transformation.
+// Make sure the syntax and sources this file requires are compatible with the current node version you are running
+// See https://github.com/zeit/next.js/issues/1245 for discussions on Universal Webpack or universal Babel
+import { IncomingMessage, ServerResponse } from 'http';
+import { createServer } from 'http';
+import next from 'next';
+import { parse } from 'url';
+import { lambdaHandler } from '../lambdas';
 
-const fastify = fastifyCreator();
+import pathMatch from 'path-match';
+const routeMatcher = pathMatch();
+const apiRouteMatch = routeMatcher(`/api/*`);
 
-fastify.register(fastifyNextJS).after(() => {
-  fastify.next('/hello', (app, req, reply) => {
-    return app.render(req.raw, reply.res, '/hello', req.query, {});
-  });
-  fastify.next('/create', (app, req, reply) => {
-    return app.render(req.raw, reply.res, '/', req.query, {});
-  });
-  fastify.next('/', (app, req, reply) => {
-    return app.render(req.raw, reply.res, '/', req.query, {});
-  });
-});
+const dev = process.env.NODE_ENV !== 'production';
+const app = next({ dev });
+const handle = app.getRequestHandler();
 
-fastify.listen(3000, err => {
-  if (err) {
-    throw err;
-  }
-  console.info('Server listenging on http://localhost:3000');
+app.prepare().then(() => {
+  createServer((req: IncomingMessage, res: ServerResponse) => {
+    // Add our lambda handlers to be able to code with them in dev mode
+    if (process.env.NODE_ENV !== 'production') {
+      if (apiRouteMatch(req.url)) {
+        return lambdaHandler(req, res);
+      }
+    }
+    if (req.url) {
+      // Be sure to pass `true` as the second argument to `url.parse`.
+      // This tells it to parse the query portion of the URL.
+      const parsedUrl = parse(req.url, true);
+      handle(req, res, parsedUrl);
+    }
+  }).listen(3000, () => {
+    console.log('> Ready on http://localhost:3000');
+  });
 });

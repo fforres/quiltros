@@ -1,8 +1,8 @@
 {
   "name": "create-next-example-app",
   "scripts": {
-    "dev": "next dev",
-    "dev:api": "node --inspect -r ts-node/register ./lambdas",
+    "dev": "nodemon",
+    "debug": "nodemon --config nodemon-debug.json",
     "dc": "docker-compose up",
     "build": "next build",
     "export": "next export",
@@ -20,6 +20,7 @@
     "emotion": "^10.0.9",
     "fastify": "^2.2.0",
     "fastify-nextjs": "^4.1.0",
+    "formidable": "^1.2.1",
     "knex": "^0.16.5",
     "konva": "^3.2.5",
     "nanoid": "^2.0.1",

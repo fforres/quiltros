@@ -12,6 +12,7 @@ import TransformerComponent from './transformer';
 
 interface IAppProps {
   image: HTMLImageElement | null;
+  onImageCreated: (arg1: Blob) => void;
   textBlocks: { [s: string]: ITextBlocksConfigPanelState };
 }
 
@@ -130,7 +131,8 @@ class Canvas extends Component<IAppProps, IAppState> {
   onExportImageClicked = () => {
     const imgB64 = this.stageRef.current!.toDataURL({ pixelRatio: 3 });
     const blob = this.dataURItoBlob(imgB64);
-    console.log(blob);
+    this.props.onImageCreated(blob);
+    // console.log(blob);
     // let fd = new FormData(document.forms[0]);
     // fd.append("canvasImage", blob);
   };

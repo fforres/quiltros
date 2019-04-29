@@ -10,6 +10,7 @@ import TextBlocksCreator from './textBlocksCreator';
 import { ITextBlocksConfigPanelState } from './textBlocksCreator/panel';
 
 export interface ILeftSidebarProps {
+  createdImage?: Blob;
   onTextChanged: (arg1: ITextBlocksConfigPanelState) => void;
 }
 
@@ -38,10 +39,11 @@ export default class LeftSidebar extends React.Component<
     isFormValid: false
   };
 
-  onSubmit = (e: FormEvent) => {
-    e.preventDefault();
+  getFormData = (e: FormEvent): { formData: FormData; formJson: object } => {
     const validInputNamesSet = new Set(LeftSidebar.validInputNames);
-    const formData = Array.from(e.currentTarget as any)
+    const formData = new FormData();
+    const formJson = {};
+    Array.from(e.currentTarget as any)
       .filter((formElement: any) => formElement.name)
       .map((formElement: any) => {
         const { name, value } = formElement;
@@ -57,18 +59,33 @@ export default class LeftSidebar extends React.Component<
       .filter(mappedFormElement => {
         return validInputNamesSet.has(mappedFormElement.name);
       })
-      .reduce(
-        (form, el: any) => ({
-          ...form,
-          [el.name]: el.value
-        }),
-        {}
-      );
+      .forEach(el => {
+        formJson[el.name] = el.value;
+        formData.append(el.name, el.value);
+      });
+    const { createdImage } = this.props;
+    if (createdImage) {
+      formData.append('image', createdImage);
+    }
+    return {
+      formData,
+      formJson
+    };
+  };
+
+  onSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    const { formData, formJson } = this.getFormData(e);
+    const response = await fetch('/api/image', {
+      body: formData,
+      method: 'POST'
+    }).then(r => r.json());
+
     ReactGA.event({
       action: 'adoption-created',
       category: 'User',
       value: 1,
-      ...formData
+      ...formJson
     });
   };
 
