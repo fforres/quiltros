@@ -10,7 +10,7 @@ const promiseParser = (req): Promise<{ fields: any; files: any }> =>
     const form = new formidable.IncomingForm();
     form.parse(req, (err, fields, files) => {
       if (err) {
-        throw new Error(err);
+        reject(err);
       }
       resolve({ fields, files });
     });
@@ -20,6 +20,23 @@ export default lambdaJsonResponseHandler(
     const { fields, files } = await promiseParser(req);
     console.log(fields);
     console.log(files);
+    // s3Client.upload
+
+    // //get "body" args from header
+    // const { id, fn } = JSON.parse(req.get('body'));
+    // const Key = id + '/' + fn; //upload to s3 folder "id" with filename === fn
+    // const params = {
+    //   Key,
+    //   Bucket: bucketName, //set somewhere
+    //   Body: req, //req is a stream
+    // };
+    // s3.upload(params, (err, data) => {
+    //   if (err) {
+    //     res.send('Error Uploading Data: ' + JSON.stringify(err) + '\n' + JSON.stringify(err.stack));
+    //   } else {
+    //     res.send(Key);
+    //   }
+    // });
 
     return {};
   }
