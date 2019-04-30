@@ -7,6 +7,7 @@ module.exports = {
     connection: {
       filename: './dev.sqlite3'
     },
+    debug: true,
     useNullAsDefault: true
   },
 

@@ -1,17 +1,7 @@
-import knex from 'knex'
+import knex from 'knex';
+import knexFile from '../../knexfile';
+import { appEnv } from '../env';
 
-const connection = {
-  database: 'myapp_test',
-  host: '127.0.0.1',
-  migrations: {
-    tableName: 'migrations'
-  },
-  password: 'secretpassword',
-  user: 'postgres',
-}
+const knexConfig = knexFile[appEnv];
 
-export const pgConnection = knex({
-  client: 'pg',
-  connection,
-  debug: true
-});
+export const pgConnection = knex(knexConfig);

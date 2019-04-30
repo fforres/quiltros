@@ -2,10 +2,14 @@ import formidable from 'formidable';
 import { IncomingMessage, ServerResponse } from 'http';
 import { inspect } from 'util';
 
-import { s3Client } from '../s3';
-import { lambdaJsonResponseHandler } from '../utils';
+import { ReadStream } from 'fs';
+import { s3Client } from '../../server/clients/s3';
+import { createImageHash } from '../../server/models/image';
+import { createReadStreamPromise, lambdaJsonResponseHandler } from '../utils';
 
-const promiseParser = (req): Promise<{ fields: any; files: any }> => {
+const promiseParser = (
+  req: IncomingMessage
+): Promise<{ fields: any; files: any }> => {
   return new Promise((resolve, reject) => {
     const form = new formidable.IncomingForm();
     form.parse(req, (err, fields, files) => {
@@ -17,32 +21,41 @@ const promiseParser = (req): Promise<{ fields: any; files: any }> => {
   });
 };
 
-export const handleImageUploadForm = async (
-  req: IncomingMessage,
-  res: ServerResponse
+// export const uploadXmlStream = async({ stream, key }) => {
+//   const ContentType = 'application/xml'
+//   const data = await uplo
+//   return data
+// }
+
+const uploadStream = async (
+  Body: ReadStream,
+  Key: string,
+  ContentType: string
 ) => {
+  // TODO: Test if it helps to pipe the string through require('zlip').createGzip()
+  const props = {
+    Body,
+    Bucket: '_test',
+    Key
+  };
+  const data = await s3Client.upload(props).promise();
+  return data;
+};
+
+const createImage = async (fileSlug, image) => {
+  const readStream = await createReadStreamPromise(image.path);
+  await uploadStream(readStream, fileSlug, image.type);
+};
+
+const handleImageUploadForm = async (req: IncomingMessage) => {
   const { fields, files } = await promiseParser(req);
-  console.log(fields);
-  console.log(files);
-  // s3Client.upload
+  const { image } = files;
+  await createImage('test_slug', image);
 
-  // //get "body" args from header
-  // const { id, fn } = JSON.parse(req.get('body'));
-  // const Key = id + '/' + fn; //upload to s3 folder "id" with filename === fn
-  // const params = {
-  //   Key,
-  //   Bucket: bucketName, //set somewhere
-  //   Body: req, //req is a stream
-  // };
-  // s3.upload(params, (err, data) => {
-  //   if (err) {
-  //     res.send('Error Uploading Data: ' + JSON.stringify(err) + '\n' + JSON.stringify(err.stack));
-  //   } else {
-  //     res.send(Key);
-  //   }
-  // });
-
-  return {};
+  return {
+    imageId: '',
+    imageUrl: ''
+  };
 };
 
 export default lambdaJsonResponseHandler(handleImageUploadForm);

@@ -18,10 +18,8 @@ const handle = app.getRequestHandler();
 app.prepare().then(() => {
   createServer((req: IncomingMessage, res: ServerResponse) => {
     // Add our lambda handlers to be able to code with them in dev mode
-    if (process.env.NODE_ENV !== 'production') {
-      if (apiRouteMatch(req.url)) {
-        return lambdaHandler(req, res);
-      }
+    if (process.env.NODE_ENV !== 'production' && apiRouteMatch(req.url)) {
+      return lambdaHandler(req, res);
     }
     if (req.url) {
       // Be sure to pass `true` as the second argument to `url.parse`.
