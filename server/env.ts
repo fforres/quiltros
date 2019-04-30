@@ -1,4 +1,3 @@
-import 'now-env';
 const isProduction = process.env.NOW_GITHUB_COMMIT_REF === 'master';
 
 const {

@@ -1,5 +1,5 @@
 {
   "watch": ["server"],
   "ext": "ts",
-  "exec": "ts-node ./server"
+  "exec": "ts-node -r now-env ./server"
 }
