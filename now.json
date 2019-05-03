@@ -27,9 +27,7 @@
     }
   ],
   "env": {
-    "S3_PROD_ACCESS_KEY_ID": "@s3-prod-access-key-id",
-    "S3_PROD_SECRET_ACCESS_KEY": "@s3-prod-secret-access-key",
-    "S3_STAGE_ACCESS_KEY_ID": "@s3-stage-access-key-id",
-    "S3_STAGE_SECRET_ACCESS_KEY": "@s3-stage-secret-access-key"
+    "S3_ACCESS_KEY_ID": "@s3-access-key-id",
+    "S3_SECRET_ACCESS_KEY": "@s3-secret-access-key"
   }
 }
