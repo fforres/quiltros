@@ -6,7 +6,6 @@
     "dc": "docker-compose up",
     "build": "next build",
     "export": "next export",
-    "now-build": "next build && next export -o dist",
     "deploy": "now --token=$NOW_TOKEN --public"
   },
   "dependencies": {
