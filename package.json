@@ -8,7 +8,7 @@
     "export": "next export",
     "deploy": "now --token=$NOW_TOKEN --public",
     "now-dev": "nodemon",
-    "now-build": "next build"
+    "now-build": "next build && next export -o dist"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.15.1",
