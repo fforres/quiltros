@@ -6,7 +6,8 @@
     "dc": "docker-compose up",
     "build": "next build",
     "export": "next export",
-    "deploy": "now --token=$NOW_TOKEN --public"
+    "deploy": "now --token=$NOW_TOKEN --public",
+    "now-build": "nodemon"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.15.1",
