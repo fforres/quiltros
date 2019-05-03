@@ -6,8 +6,9 @@
     "dc": "docker-compose up",
     "build": "next build",
     "export": "next export",
-    "now-build": "next build && next export -o dist",
-    "deploy": "now --token=$NOW_TOKEN --public"
+    "deploy": "now --token=$NOW_TOKEN --public",
+    "now-dev": "nodemon",
+    "now-build": "next build && next export -o dist"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.15.1",
@@ -36,7 +37,7 @@
     "@types/knex": "^0.16.1",
     "@types/micro": "^7.3.3",
     "@types/next": "^8.0.3",
-    "@types/node": "^11.13.8",
+    "@types/node": "^11.13.9",
     "@types/react": "^16.8.13",
     "@types/react-dom": "^16.8.4",
     "@zeit/next-typescript": "^1.1.1",
