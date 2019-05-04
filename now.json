@@ -8,14 +8,14 @@
       "use": "@now/static-build" 
     },
     { 
-      "src": "./lambdas/*/*.ts",
+      "src": "./lambdas/endpoints/*/*.ts",
       "use": "@now/node"
     }
   ],
   "routes": [
     { 
       "src": "/api/(.*)",
-      "dest": "/lambdas/$1" 
+      "dest": "/lambdas/endpoints/$1" 
     },
     { 
       "src": "/lambdas/(.*)",

@@ -9,6 +9,7 @@ Sentry.init({
 
 export const trackErrorSentry = (err: Error) => {
   Sentry.configureScope(scope => {
+    scope.setTag('env', 'client');
     if (err.message) {
       // De-duplication currently doesn't work correctly for SSR / browser errors
       // so we force deduplication by error message if it is present
