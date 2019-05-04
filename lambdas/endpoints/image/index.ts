@@ -2,8 +2,8 @@ import formidable from 'formidable';
 import { IncomingMessage, ServerResponse } from 'http';
 import { inspect } from 'util';
 
-import { s3Client } from '../s3';
-import { lambdaJsonResponseHandler } from '../utils';
+import { s3Client } from '../../s3';
+import { lambdaJsonResponseHandler } from '../../utils';
 
 const promiseParser = (req): Promise<{ fields: any; files: any }> => {
   return new Promise((resolve, reject) => {
