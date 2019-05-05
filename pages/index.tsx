@@ -12,11 +12,37 @@ interface IHomeState {
   image?: Blob;
   canvasImage: HTMLImageElement | null;
   textBlocks: { [s: string]: ITextBlocksConfigPanelState };
+  formValues: IAdoptionForm;
+}
+
+export interface IAdoptionForm {
+  'nombre-mascota': string;
+  nombre: string;
+  esterilizado: boolean;
+  chip: boolean;
+  vacunas: boolean;
+  'edad-mascota': string;
+  'informacion-extra-mascota'?: string;
+  tamaño?: 's' | 'm' | 'l';
+  extra?: string;
+  teléfono?: string;
+  whatsapp?: string;
+  email?: string;
+  texto?: string;
 }
 
 class Home extends Component<any, IHomeState> {
   state = {
     canvasImage: null,
+    formValues: {
+      chip: false,
+      'edad-mascota': '',
+      esterilizado: false,
+      'informacion-extra-mascota': '',
+      nombre: '',
+      'nombre-mascota': '',
+      vacunas: false
+    },
     image: undefined,
     textBlocks: {}
   };
@@ -37,18 +63,29 @@ class Home extends Component<any, IHomeState> {
     });
   };
 
+  setAdoptionFormField = (key: keyof IAdoptionForm, value: any) => {
+    this.setState({
+      formValues: {
+        ...this.state.formValues,
+        [key]: value
+      }
+    });
+  };
+
   onImageCreated = (image: Blob) => {
     this.setState({ image });
   };
 
   render() {
-    const { canvasImage, textBlocks, image } = this.state;
+    const { canvasImage, textBlocks, image, formValues } = this.state;
 
     return (
       <div>
         <Nav onImageUploaded={this.setCanvasImage} />
         <section data-name='bodycontainer' css={containerStyle}>
           <LeftSidebar
+            formValues={formValues}
+            onInputChanged={this.setAdoptionFormField}
             createdImage={image}
             onTextChanged={this.onTextChanged}
           />

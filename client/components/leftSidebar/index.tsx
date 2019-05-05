@@ -3,6 +3,7 @@ import { jsx } from '@emotion/core';
 import React, { FormEvent } from 'react';
 import ReactGA from 'react-ga';
 
+import { IAdoptionForm } from '../../../pages';
 import ContactInformation from './contactInformation';
 import PetInformation from './petInformation';
 import SubmitButton from './submitButton';
@@ -11,6 +12,8 @@ import { ITextBlocksConfigPanelState } from './textBlocksCreator/panel';
 
 export interface ILeftSidebarProps {
   createdImage?: Blob;
+  formValues: IAdoptionForm;
+  onInputChanged: (key: keyof IAdoptionForm, value: any) => void;
   onTextChanged: (arg1: ITextBlocksConfigPanelState) => void;
 }
 
@@ -96,11 +99,11 @@ export default class LeftSidebar extends React.Component<
   };
 
   render() {
-    const { onTextChanged } = this.props;
+    const { onTextChanged, formValues, onInputChanged } = this.props;
     return (
       <form onSubmit={this.onSubmit} onChange={this.onFormChange}>
         <SubmitButton />
-        <PetInformation />
+        <PetInformation onChange={onInputChanged} formValues={formValues} />
         <ContactInformation />
         <TextBlocksCreator onTextChanged={onTextChanged} />
         <SubmitButton />
