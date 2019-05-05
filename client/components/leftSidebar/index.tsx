@@ -104,8 +104,12 @@ export default class LeftSidebar extends React.Component<
       <form onSubmit={this.onSubmit} onChange={this.onFormChange}>
         <SubmitButton />
         <PetInformation onChange={onInputChanged} formValues={formValues} />
-        <ContactInformation />
-        <TextBlocksCreator onTextChanged={onTextChanged} />
+        <ContactInformation onChange={onInputChanged} formValues={formValues} />
+        <TextBlocksCreator
+          onTextChanged={onTextChanged}
+          onChange={onInputChanged}
+          formValues={formValues}
+        />
         <SubmitButton />
       </form>
     );

@@ -9,11 +9,14 @@ import {
 } from '@blueprintjs/core';
 import { jsx } from '@emotion/core';
 import React from 'react';
+import { IAdoptionForm } from '../../../../pages';
 import TextBlocksConfigPanel, { ITextBlocksConfigPanelState } from './panel';
 import { customButtonStyle, sidebarContainerStyle } from './style';
 
 export interface ITextBlocksCreatorProps {
   onTextChanged: (arg1: ITextBlocksConfigPanelState) => void;
+  onChange: (key: keyof IAdoptionForm, value: any) => void;
+  formValues: IAdoptionForm;
 }
 
 export default class TextBlocksCreator extends React.Component<

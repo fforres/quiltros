@@ -17,7 +17,10 @@ interface IHomeState {
 
 export interface IAdoptionForm {
   'nombre-mascota': string;
-  nombre: string;
+  'nombre-contacto': string;
+  'telefono-contacto': string;
+  'whatsapp-contacto': string;
+  'email-contacto': string;
   esterilizado: boolean;
   chip: boolean;
   vacunas: boolean;
