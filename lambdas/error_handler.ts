@@ -1,9 +1,8 @@
 import Sentry from '@sentry/node';
 
-export const initSentry = (lambdaName: string, method: string = '') => {
+export const initSentry = (lambdaName: string) => {
   Sentry.configureScope(scope => {
     scope.setTag('lambda', lambdaName);
-    scope.setTag('method', method);
     scope.setTag('env', 'lambda');
   });
 
