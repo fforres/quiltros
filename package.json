@@ -1,14 +1,11 @@
 {
   "name": "create-next-example-app",
   "scripts": {
-    "dev": "nodemon",
+    "dev": "nodemon --config nodemon-dev.json",
     "debug": "nodemon --config nodemon-debug.json",
     "dc": "docker-compose up",
     "build": "next build",
-    "export": "next export",
-    "deploy": "now --token=$NOW_TOKEN --public",
-    "now-dev": "nodemon",
-    "now-build": "next build && next export -o dist"
+    "export": "next export"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.15.1",
