@@ -7,10 +7,10 @@ const routeMatcher = pathMatch();
 const postMatch = routeMatcher(`/api/:route`);
 
 export const lambdaHandler = (req: IncomingMessage, res: ServerResponse) => {
-  glob('./lambdas/*/index.ts', (err, files) => {
+  glob('./lambdas/endpoints/*/index.ts', (err, files) => {
     const maps = {};
     files.forEach(current => {
-      const routeKey = current.split('/')[2];
+      const routeKey = current.split('/')[3];
       maps[routeKey] = resolve(current);
     }, {});
     const { route } = postMatch(req.url);

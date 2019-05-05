@@ -1,13 +1,12 @@
 {
   "name": "create-next-example-app",
   "scripts": {
-    "dev": "nodemon",
+    "dev": "nodemon --config nodemon-dev.json",
     "debug": "nodemon --config nodemon-debug.json",
     "dc": "docker-compose up",
     "build": "next build",
     "export": "next export",
-    "deploy": "now --token=$NOW_TOKEN --public",
-    "now-dev": "nodemon",
+    "now-dev": "npm run dev",
     "now-build": "next build && next export -o dist"
   },
   "dependencies": {
@@ -15,6 +14,7 @@
     "@blueprintjs/icons": "^3.8.0",
     "@emotion/core": "^10.0.10",
     "@sentry/browser": "^5.1.1",
+    "@sentry/node": "^5.1.2",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-source-maps": "^0.0.3",
     "aws-sdk": "^2.444.0",

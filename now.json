@@ -8,14 +8,14 @@
       "use": "@now/static-build" 
     },
     { 
-      "src": "./lambdas/*/*.ts",
+      "src": "./lambdas/endpoints/*/*.ts",
       "use": "@now/node"
     }
   ],
   "routes": [
     { 
       "src": "/api/(.*)",
-      "dest": "/lambdas/$1" 
+      "dest": "/lambdas/endpoints/$1" 
     },
     { 
       "src": "/lambdas/(.*)",
@@ -28,6 +28,7 @@
   ],
   "env": {
     "S3_ACCESS_KEY_ID": "@s3-access-key-id",
-    "S3_SECRET_ACCESS_KEY": "@s3-secret-access-key"
+    "S3_SECRET_ACCESS_KEY": "@s3-secret-access-key",
+    "SENTRY_DSN": "@sentry-dsn-key"
   }
 }
