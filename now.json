@@ -9,7 +9,7 @@
     },
     { 
       "src": "./lambdas/endpoints/*/*.ts",
-      "use": "@now/node"
+      "use": "@now/node-server"
     }
   ],
   "routes": [
