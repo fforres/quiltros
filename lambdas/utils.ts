@@ -6,19 +6,17 @@ export const lambdaJsonResponseHandler = (
 ) => {
   initSentry(cb.name); // Sets the lambda name
   return async (req: IncomingMessage, res: ServerResponse) => {
-    let code = 0;
+    let code = 200;
     let response = {};
     try {
       response = await cb(req, res);
-      code = 200;
     } catch (e) {
       code = 500;
       response = { msg: 'ERROR' };
       await captureError(e);
       console.error(e);
-    } finally {
-      res.writeHead(code, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify(response));
     }
+    res.writeHead(code, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(response));
   };
 };
