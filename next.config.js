@@ -12,14 +12,14 @@ const nextConfig = {
     const { buildId, dev } = options
     config.plugins.push(
       new webpack.DefinePlugin({
-        'process.env.SENTRY_RELEASE': JSON.stringify(process.env.COMMIT_REF)
+        'process.env.SENTRY_RELEASE': JSON.stringify(process.env.NOW_GITHUB_COMMIT_SHA)
       })
     )
     
     if (isServer) { 
       config.plugins.push(
         new SentryPlugin({
-          release: process.env.COMMIT_REF,
+          release: process.env.NOW_GITHUB_COMMIT_SHA,
           include: './.next/server/bundles/pages',
           urlPrefix:`~/_next/${buildId}/page`,
         })
@@ -28,7 +28,7 @@ const nextConfig = {
 
     config.plugins.push(
       new SentryPlugin({
-        release: process.env.COMMIT_REF,
+        release: process.env.NOW_GITHUB_COMMIT_SHA,
         include: './.next/static',
         urlPrefix: `~/_next/static`,
       })
