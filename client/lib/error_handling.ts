@@ -1,4 +1,4 @@
-import Sentry from '@sentry/browser';
+import Sentry from '@sentry/node';
 
 Sentry.init({
   attachStacktrace: true,
