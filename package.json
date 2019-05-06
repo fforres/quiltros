@@ -5,6 +5,7 @@
     "debug": "nodemon --config nodemon-debug.json",
     "dc": "docker-compose up",
     "build": "next build",
+    "test": "tslint --project .",
     "export": "next export",
     "now-dev": "npm run dev",
     "now-build": "next build && next export -o dist"
@@ -50,7 +51,7 @@
     "prettier": "^1.17.0",
     "sqlite3": "^4.0.6",
     "ts-node": "^8.1.0",
-    "tslint": "^5.15.0",
+    "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-config-standard": "^8.0.1",
     "tslint-plugin-prettier": "^2.0.1",

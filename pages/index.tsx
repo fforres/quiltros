@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import '@blueprintjs/core/lib/css/blueprint.css';
 import { jsx } from '@emotion/core';
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import Canvas from '../client/components/canvas';
 import LeftSidebar from '../client/components/leftSidebar';
 import { ITextBlocksConfigPanelState } from '../client/components/leftSidebar/textBlocksCreator/panel';
@@ -12,14 +12,44 @@ interface IHomeState {
   image?: Blob;
   canvasImage: HTMLImageElement | null;
   textBlocks: { [s: string]: ITextBlocksConfigPanelState };
+  formValues: IAdoptionForm;
+}
+
+export interface IAdoptionForm {
+  'nombre-mascota': string;
+  'nombre-contacto': string;
+  'telefono-contacto': string;
+  'whatsapp-contacto': string;
+  'email-contacto': string;
+  esterilizado: boolean;
+  chip: boolean;
+  vacunas: boolean;
+  'edad-mascota': string;
+  'informacion-extra-mascota'?: string;
+  'tamaño-mascota': boolean;
 }
 
 class Home extends Component<any, IHomeState> {
   state = {
     canvasImage: null,
+    formValues: {
+      chip: false,
+      'edad-mascota': '',
+      'email-contacto': '',
+      esterilizado: false,
+      'informacion-extra-mascota': '',
+      'nombre-contacto': '',
+      'nombre-mascota': '',
+      'tamaño-mascota': false,
+      'telefono-contacto': '',
+      vacunas: false,
+      'whatsapp-contacto': ''
+    },
     image: undefined,
     textBlocks: {}
   };
+
+  stageRef = createRef<any>();
 
   setCanvasImage = (image: HTMLImageElement) => {
     this.setState({
@@ -37,22 +67,35 @@ class Home extends Component<any, IHomeState> {
     });
   };
 
+  setAdoptionFormField = (key: keyof IAdoptionForm, value: any) => {
+    this.setState({
+      formValues: {
+        ...this.state.formValues,
+        [key]: value
+      }
+    });
+  };
+
   onImageCreated = (image: Blob) => {
     this.setState({ image });
   };
 
   render() {
-    const { canvasImage, textBlocks, image } = this.state;
+    const { canvasImage, textBlocks, image, formValues } = this.state;
 
     return (
       <div>
         <Nav onImageUploaded={this.setCanvasImage} />
-        <section data-name='bodycontainer' css={containerStyle}>
+        <section data-name="bodycontainer" css={containerStyle}>
           <LeftSidebar
+            canvasRef={this.stageRef}
+            formValues={formValues}
+            onInputChanged={this.setAdoptionFormField}
             createdImage={image}
             onTextChanged={this.onTextChanged}
           />
           <Canvas
+            onRef={this.stageRef}
             onImageCreated={this.onImageCreated}
             textBlocks={textBlocks}
             image={canvasImage}

@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import {
   Card,
+  Checkbox,
   Elevation,
   FormGroup,
   H4,
@@ -12,9 +13,13 @@ import {
 } from '@blueprintjs/core';
 import { jsx } from '@emotion/core';
 import React, { FormEvent } from 'react';
+import { IAdoptionForm } from '../../../../pages';
 import { fakeRadioGroupStyle, sidebarContainerStyle } from './style';
 
-export interface IPetInformationProps {}
+export interface IPetInformationProps {
+  onChange: (key: keyof IAdoptionForm, value: any) => void;
+  formValues: IAdoptionForm;
+}
 
 export default class PetInformation extends React.Component<
   IPetInformationProps,
@@ -24,57 +29,66 @@ export default class PetInformation extends React.Component<
     size: undefined
   };
 
-  onRadioGroupChanged = (e: FormEvent<HTMLInputElement>) =>
-    this.setState({ size: e.currentTarget.value });
+  onRadioGroupChanged = (e: FormEvent<HTMLInputElement>) => {
+    const size = e.currentTarget.value;
+    this.setState({ size });
+  };
 
   render() {
+    const { onChange, formValues } = this.props;
     const { size } = this.state;
     return (
       <Card elevation={Elevation.ONE} css={sidebarContainerStyle}>
         <H4>Información</H4>
         <div>
-          <FormGroup label='Nombre *'>
+          <FormGroup label="Nombre *">
             <InputGroup
-              name='nombre-mascota'
-              placeholder='Nombre'
-              intent='primary'
+              name="nombre-mascota"
+              placeholder="Nombre"
+              intent="primary"
+              value={formValues['nombre-mascota']}
+              onChange={e => {
+                onChange('nombre-mascota', e.currentTarget.value);
+              }}
               required
             />
           </FormGroup>
         </div>
         <div>
-          <FormGroup>
-            <Switch
-              required
-              name='esterilizado'
-              label='Esterilizado'
-              innerLabel='No'
-              inline
-              innerLabelChecked='Si'
-            />
-            <Switch
-              required
-              name='chip'
-              label='Chip'
-              innerLabel='No'
-              inline
-              innerLabelChecked='Si'
-            />
-            <Switch
-              required
-              name='vacunas'
-              label='Vacunas al día'
-              innerLabel='No'
-              inline
-              innerLabelChecked='Si'
-            />
-          </FormGroup>
+          <Checkbox
+            name="esterilizado"
+            label="Esterilizado"
+            checked={formValues.esterilizado}
+            onChange={e => {
+              onChange('esterilizado', !formValues.esterilizado);
+            }}
+            inline
+          />
+          <Checkbox
+            name="chip"
+            label="Chip"
+            checked={formValues.chip}
+            onChange={e => {
+              onChange('chip', !formValues.chip);
+            }}
+            inline
+          />
+          <Checkbox
+            name="vacunas"
+            label="Vacunas al día"
+            checked={formValues.vacunas}
+            onChange={e => {
+              onChange('vacunas', !formValues.vacunas);
+            }}
+            inline
+          />
         </div>
         <div>
-          <FormGroup label='Tamaño *'>
+          <FormGroup label="Tamaño *">
             <Radio
-              name='tamaño-mascota'
+              name="tamaño-mascota"
               value={size}
+              onChange={e => onChange('tamaño-mascota', Boolean(size))}
               checked={Boolean(size)}
               required
               css={fakeRadioGroupStyle}
@@ -82,35 +96,45 @@ export default class PetInformation extends React.Component<
             <Radio
               onChange={this.onRadioGroupChanged}
               checked={size === 's'}
-              label='Pequeño'
-              value='s'
+              label="Pequeño"
+              value="s"
             />
             <Radio
               onChange={this.onRadioGroupChanged}
               checked={size === 'm'}
-              label='Mediano'
-              value='m'
+              label="Mediano"
+              value="m"
             />
             <Radio
               onChange={this.onRadioGroupChanged}
               checked={size === 'l'}
-              label='Grande'
-              value='l'
+              label="Grande"
+              value="l"
             />
           </FormGroup>
         </div>
         <div>
-          <FormGroup label='Edad'>
-            <InputGroup name='edad-mascota' placeholder='Años' />
+          <FormGroup label="Edad">
+            <InputGroup
+              name="edad-mascota"
+              value={formValues['edad-mascota']}
+              onChange={e => onChange('edad-mascota', e.currentTarget.value)}
+              placeholder="Años"
+              required
+            />
           </FormGroup>
         </div>
         <div>
-          <FormGroup label='Información Extra'>
+          <FormGroup label="Información Extra">
             <TextArea
               fill
               growVertically
-              name='informacion-extra-mascota'
-              placeholder='Extra'
+              name="informacion-extra-mascota"
+              placeholder="Extra"
+              value={formValues['informacion-extra-mascota']}
+              onChange={e =>
+                onChange('informacion-extra-mascota', e.currentTarget.value)
+              }
             />
           </FormGroup>
         </div>
