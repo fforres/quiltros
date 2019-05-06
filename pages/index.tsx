@@ -26,12 +26,7 @@ export interface IAdoptionForm {
   vacunas: boolean;
   'edad-mascota': string;
   'informacion-extra-mascota'?: string;
-  tamaño?: 's' | 'm' | 'l';
-  extra?: string;
-  teléfono?: string;
-  whatsapp?: string;
-  email?: string;
-  texto?: string;
+  'tamaño-mascota': boolean;
 }
 
 class Home extends Component<any, IHomeState> {
@@ -40,11 +35,15 @@ class Home extends Component<any, IHomeState> {
     formValues: {
       chip: false,
       'edad-mascota': '',
+      'email-contacto': '',
       esterilizado: false,
       'informacion-extra-mascota': '',
-      nombre: '',
+      'nombre-contacto': '',
       'nombre-mascota': '',
-      vacunas: false
+      'tamaño-mascota': false,
+      'telefono-contacto': '',
+      vacunas: false,
+      'whatsapp-contacto': ''
     },
     image: undefined,
     textBlocks: {}
@@ -85,7 +84,7 @@ class Home extends Component<any, IHomeState> {
     return (
       <div>
         <Nav onImageUploaded={this.setCanvasImage} />
-        <section data-name='bodycontainer' css={containerStyle}>
+        <section data-name="bodycontainer" css={containerStyle}>
           <LeftSidebar
             formValues={formValues}
             onInputChanged={this.setAdoptionFormField}

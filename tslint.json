@@ -2,11 +2,11 @@
   "extends": [
     "tslint:recommended",
     "tslint-react",
-    "tslint-eslint-rules",
-    "tslint-config-prettier"
+    "tslint-config-prettier",
+    "tslint-eslint-rules"
   ],
   "linterOptions": {
-    "exclude": ["migrations/*", "*.js"]
+    "exclude": ["migrations/*", "*.js", "*.d.ts"]
   },
   "rules": {
     "interface-name": false,
@@ -15,8 +15,7 @@
     "member-access": [true, "no-public"],
     "no-empty-interface": false,
     "no-console": false,
-    "prettier": true,
-    "quotemark": [true, "single"],
+    "quotemark": [true, "single", "jsx-double"],
     "jsx-no-lambda": false
   }
 }
