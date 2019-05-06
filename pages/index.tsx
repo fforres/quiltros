@@ -9,10 +9,16 @@ import Nav from '../client/components/nav';
 import { containerStyle } from './styles';
 
 interface IHomeState {
-  image?: Blob;
   canvasImage: HTMLImageElement | null;
-  textBlocks: { [s: string]: ITextBlocksConfigPanelState };
+  canvasTexts: ICanvasTexts;
   formValues: IAdoptionForm;
+}
+
+export interface ICanvasTexts {
+  selectedTextBlock: number;
+  textBlocks: {
+    [s: string]: ITextBlocksConfigPanelState;
+  };
 }
 
 export interface IAdoptionForm {
@@ -32,6 +38,10 @@ export interface IAdoptionForm {
 class Home extends Component<any, IHomeState> {
   state = {
     canvasImage: null,
+    canvasTexts: {
+      selectedTextBlock: -1,
+      textBlocks: {}
+    },
     formValues: {
       chip: false,
       'edad-mascota': '',
@@ -44,9 +54,7 @@ class Home extends Component<any, IHomeState> {
       'telefono-contacto': '',
       vacunas: false,
       'whatsapp-contacto': ''
-    },
-    image: undefined,
-    textBlocks: {}
+    }
   };
 
   stageRef = createRef<any>();
@@ -58,11 +66,15 @@ class Home extends Component<any, IHomeState> {
   };
 
   onTextChanged = (s: ITextBlocksConfigPanelState) => {
-    const { textBlocks } = this.state;
+    const { canvasTexts } = this.state;
+    const { textBlocks } = canvasTexts;
     this.setState({
-      textBlocks: {
-        ...textBlocks,
-        [s.id]: s
+      canvasTexts: {
+        ...canvasTexts,
+        textBlocks: {
+          ...textBlocks,
+          [s.id]: s
+        }
       }
     });
   };
@@ -77,7 +89,8 @@ class Home extends Component<any, IHomeState> {
   };
 
   render() {
-    const { canvasImage, textBlocks, image, formValues } = this.state;
+    const { canvasImage, canvasTexts, formValues } = this.state;
+    const { textBlocks } = canvasTexts;
 
     return (
       <div>
@@ -87,7 +100,6 @@ class Home extends Component<any, IHomeState> {
             canvasRef={this.stageRef}
             formValues={formValues}
             onInputChanged={this.setAdoptionFormField}
-            createdImage={image}
             onTextChanged={this.onTextChanged}
           />
           <Canvas

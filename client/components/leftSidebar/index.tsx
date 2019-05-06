@@ -12,7 +12,6 @@ import { ITextBlocksConfigPanelState } from './textBlocksCreator/panel';
 
 export interface ILeftSidebarProps {
   canvasRef: RefObject<any>;
-  createdImage?: Blob;
   formValues: IAdoptionForm;
   onInputChanged: (key: keyof IAdoptionForm, value: any) => void;
   onTextChanged: (arg1: ITextBlocksConfigPanelState) => void;
@@ -38,10 +37,6 @@ export default class LeftSidebar extends Component<
         const element = formValues[key];
         formData.append(key, element);
       }
-    }
-    const { createdImage } = this.props;
-    if (createdImage) {
-      formData.append('image', createdImage);
     }
     const imageBlob = this.onExportImageClicked();
     formData.append('image', imageBlob);
