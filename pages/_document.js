@@ -23,6 +23,7 @@ class MyDocument extends Document {
           <style>{resetCss}</style>
         </Head>
         <body>
+          <div id="portal_container" />
           <Main />
           <NextScript />
         </body>

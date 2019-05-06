@@ -79,6 +79,7 @@ export default class LeftSidebar extends Component<
 
   onSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
     const { formData, formJson } = this.getFormData();
     const response = await fetch('/api/image', {
       body: formData,

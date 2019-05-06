@@ -76,10 +76,6 @@ class Home extends Component<any, IHomeState> {
     });
   };
 
-  onImageCreated = (image: Blob) => {
-    this.setState({ image });
-  };
-
   render() {
     const { canvasImage, textBlocks, image, formValues } = this.state;
 
@@ -96,7 +92,6 @@ class Home extends Component<any, IHomeState> {
           />
           <Canvas
             onRef={this.stageRef}
-            onImageCreated={this.onImageCreated}
             textBlocks={textBlocks}
             image={canvasImage}
           />

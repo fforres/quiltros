@@ -13,7 +13,6 @@ import TransformerComponent from './transformer';
 interface IAppProps {
   onRef: RefObject<any>;
   image: HTMLImageElement | null;
-  onImageCreated: (arg1: Blob) => void;
   textBlocks: { [s: string]: ITextBlocksConfigPanelState };
 }
 
