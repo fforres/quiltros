@@ -20,10 +20,10 @@ export default class ContactInformation extends React.Component<
       <Card elevation={Elevation.ONE} css={sidebarContainerStyle}>
         <H4>Datos de contacto</H4>
         <div>
-          <FormGroup label='Nombre'>
+          <FormGroup label="Nombre">
             <InputGroup
-              placeholder='Nombre'
-              name='nombre-contacto'
+              placeholder="Nombre"
+              name="nombre-contacto"
               required
               value={formValues['nombre-contacto']}
               onChange={e => {
@@ -33,10 +33,10 @@ export default class ContactInformation extends React.Component<
           </FormGroup>
         </div>
         <div>
-          <FormGroup label='Teléfono'>
+          <FormGroup label="Teléfono">
             <InputGroup
-              placeholder='Teléfono'
-              name='telefono-contacto'
+              placeholder="Teléfono"
+              name="telefono-contacto"
               value={formValues['telefono-contacto']}
               onChange={e => {
                 onChange('telefono-contacto', e.currentTarget.value);
@@ -46,10 +46,10 @@ export default class ContactInformation extends React.Component<
           </FormGroup>
         </div>
         <div>
-          <FormGroup label='Whatsapp'>
+          <FormGroup label="Whatsapp">
             <InputGroup
-              placeholder='Whatsapp'
-              name='whatsapp-contacto'
+              placeholder="Whatsapp"
+              name="whatsapp-contacto"
               value={formValues['whatsapp-contacto']}
               onChange={e => {
                 onChange('whatsapp-contacto', e.currentTarget.value);
@@ -58,11 +58,11 @@ export default class ContactInformation extends React.Component<
           </FormGroup>
         </div>
         <div>
-          <FormGroup label='Email'>
+          <FormGroup label="Email">
             <InputGroup
-              name='Email'
-              type='email-contacto'
-              placeholder='Email'
+              name="Email"
+              type="email-contacto"
+              placeholder="Email"
               value={formValues['email-contacto']}
               onChange={e => {
                 onChange('email-contacto', e.currentTarget.value);

@@ -9,7 +9,7 @@ class SubmitButton extends React.Component {
   render() {
     return (
       <div css={sidebarContainerStyle}>
-        <Button type='submit' intent='none' rightIcon='floppy-disk'>
+        <Button type="submit" intent="none" rightIcon="floppy-disk">
           Crear Imagen
         </Button>
       </div>

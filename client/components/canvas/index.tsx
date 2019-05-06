@@ -1,12 +1,11 @@
 /** @jsx jsx */
-import { Button, Card, Elevation } from '@blueprintjs/core';
+import { Card, Elevation } from '@blueprintjs/core';
 import { jsx } from '@emotion/core';
 import React, { Component, createRef, RefObject } from 'react';
 import { canvasStyle } from './style';
 
 import { Layer, Stage } from 'react-konva';
 import { ICanvasTexts } from '../../../pages';
-import { ITextBlocksConfigPanelState } from '../leftSidebar/textBlocksCreator/panel';
 import BackgroundImage from './backgroundImage';
 import Text from './Text';
 import TransformerComponent from './transformer';

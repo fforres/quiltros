@@ -5,7 +5,7 @@
     "debug": "nodemon --config nodemon-debug.json",
     "dc": "docker-compose up",
     "build": "next build",
-    "test": "tslint --project .",
+    "test": "tslint --project ./tsconfig.json",
     "export": "next export",
     "now-dev": "npm run dev",
     "now-build": "next build && next export -o dist"

@@ -102,7 +102,7 @@ class Home extends Component<any, IHomeState> {
 
   render() {
     const { canvasImage, canvasTexts, formValues } = this.state;
-    const { textBlocks, selectedTextBlock } = canvasTexts;
+    const { selectedTextBlock } = canvasTexts;
 
     return (
       <div>

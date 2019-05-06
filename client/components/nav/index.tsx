@@ -42,15 +42,15 @@ class Nav extends Component<INavProps> {
         <Navbar.Group align={Alignment.RIGHT}>
           <Navbar.Divider />
           <Button
-            intent='primary'
-            rightIcon='upload'
-            text='Subir Imagen'
+            intent="primary"
+            rightIcon="upload"
+            text="Subir Imagen"
             onClick={this.openFile}
           />
           <input
             ref={this.inputFileRef}
             onChange={this.onFileUploaded}
-            type='file'
+            type="file"
             css={fileUpload}
           />
         </Navbar.Group>
