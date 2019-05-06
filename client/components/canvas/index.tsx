@@ -5,6 +5,7 @@ import React, { Component, createRef, RefObject } from 'react';
 import { canvasStyle } from './style';
 
 import { Layer, Stage } from 'react-konva';
+import { ICanvasTexts } from '../../../pages';
 import { ITextBlocksConfigPanelState } from '../leftSidebar/textBlocksCreator/panel';
 import BackgroundImage from './backgroundImage';
 import Text from './Text';
@@ -12,20 +13,19 @@ import TransformerComponent from './transformer';
 
 interface IAppProps {
   onRef: RefObject<any>;
+  onTextBlockSelected: (arg1: string) => void;
   image: HTMLImageElement | null;
-  textBlocks: { [s: string]: ITextBlocksConfigPanelState };
+  canvasTexts: ICanvasTexts;
 }
 
 interface IAppState {
   backgroundImage: HTMLImageElement | null;
-  selectedShapeName: string;
 }
 class Canvas extends Component<IAppProps, IAppState> {
   state = {
     backgroundImage: null,
     canvasHeight: 750,
-    canvasWidth: 500,
-    selectedShapeName: ''
+    canvasWidth: 500
   };
 
   stageRef = createRef<any>();
@@ -84,11 +84,10 @@ class Canvas extends Component<IAppProps, IAppState> {
   handleStageMouseDown = e => {
     // If the thing we are clicking is the canvas,
     // unselect the transformer
+    const { onTextBlockSelected } = this.props;
     const { target } = e;
     if (target === target.getStage()) {
-      this.setState({
-        selectedShapeName: ''
-      });
+      onTextBlockSelected('');
       return;
     }
     // If the thing we are clicking is the transformer - do nothing
@@ -102,20 +101,13 @@ class Canvas extends Component<IAppProps, IAppState> {
     if (!name) {
       return;
     }
-    // find clicked rect by its name
-    this.setState({
-      selectedShapeName: name
-    });
+    onTextBlockSelected(name);
   };
 
   render() {
-    const {
-      backgroundImage,
-      canvasHeight,
-      canvasWidth,
-      selectedShapeName
-    } = this.state;
-    const { textBlocks, onRef } = this.props;
+    const { backgroundImage, canvasHeight, canvasWidth } = this.state;
+    const { canvasTexts, onRef } = this.props;
+    const { textBlocks, selectedTextBlock } = canvasTexts;
     return (
       <Card elevation={Elevation.ONE} css={canvasStyle}>
         {process.browser && (
@@ -138,7 +130,7 @@ class Canvas extends Component<IAppProps, IAppState> {
                 resizeEnabled
                 rotateEnabled={false}
                 borderEnabled
-                selectedShapeName={selectedShapeName}
+                selectedShapeName={selectedTextBlock}
               />
             </Layer>
           </Stage>

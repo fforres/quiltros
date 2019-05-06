@@ -17,6 +17,7 @@ export interface ITextBlocksCreatorProps {
   onTextChanged: (arg1: ITextBlocksConfigPanelState) => void;
   onChange: (key: keyof IAdoptionForm, value: any) => void;
   onMainTextButtonPressed: (key: number) => void;
+  selectedTextBlock: string;
   formValues: IAdoptionForm;
 }
 
@@ -29,7 +30,7 @@ export default class TextBlocksCreator extends React.Component<
     selected: 'alignment-top'
   };
   onButtonClicked = key => {
-    this.setState({ selected: key });
+    // this.setState({ selected: key });
     this.props.onMainTextButtonPressed(key);
   };
 
@@ -45,6 +46,7 @@ export default class TextBlocksCreator extends React.Component<
 
   render() {
     const { selected } = this.state;
+    const { selectedTextBlock } = this.props;
     return (
       <Card elevation={Elevation.ONE} css={sidebarContainerStyle}>
         <H4>Agregar Texto</H4>
@@ -55,18 +57,18 @@ export default class TextBlocksCreator extends React.Component<
                 icon={key as any}
                 key={key}
                 css={customButtonStyle}
-                active={selected === key}
+                active={selectedTextBlock === key}
                 onClick={() => this.onButtonClicked(key)}
               />
             ))}
           </ButtonGroup>
         </FormGroup>
-        {TextBlocksCreator.buttonsKeys.map((key, index) => (
+        {TextBlocksCreator.buttonsKeys.map(key => (
           <TextBlocksConfigPanel
             key={key}
             id={key}
             onChange={e => this.onTextBlockChanged(e, key)}
-            shown={selected === key}
+            shown={selectedTextBlock === key}
           />
         ))}
       </Card>

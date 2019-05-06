@@ -18,7 +18,7 @@ export interface ICanvasTexts {
   selectedTextBlock: string; // TODO: Change this for a string union type
   textBlocks: {
     // TODO: Change keys on this objects also for a string uniion type.
-    // (Based on the types)
+    // (Based on the types of TextBlocksCreator.buttonsKeys )
     [s: string]: ITextBlocksConfigPanelState;
   };
 }
@@ -102,7 +102,7 @@ class Home extends Component<any, IHomeState> {
 
   render() {
     const { canvasImage, canvasTexts, formValues } = this.state;
-    const { textBlocks } = canvasTexts;
+    const { textBlocks, selectedTextBlock } = canvasTexts;
 
     return (
       <div>
@@ -112,12 +112,14 @@ class Home extends Component<any, IHomeState> {
             canvasRef={this.stageRef}
             formValues={formValues}
             onMainTextButtonPressed={this.setSelectedTextBlock}
+            selectedTextBlock={selectedTextBlock}
             onInputChanged={this.setAdoptionFormField}
             onTextChanged={this.onTextChanged}
           />
           <Canvas
+            onTextBlockSelected={this.setSelectedTextBlock}
             onRef={this.stageRef}
-            textBlocks={textBlocks}
+            canvasTexts={canvasTexts}
             image={canvasImage}
           />
         </section>
