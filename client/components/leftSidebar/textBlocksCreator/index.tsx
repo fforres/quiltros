@@ -16,6 +16,7 @@ import { customButtonStyle, sidebarContainerStyle } from './style';
 export interface ITextBlocksCreatorProps {
   onTextChanged: (arg1: ITextBlocksConfigPanelState) => void;
   onChange: (key: keyof IAdoptionForm, value: any) => void;
+  onMainTextButtonPressed: (key: number) => void;
   formValues: IAdoptionForm;
 }
 
@@ -29,17 +30,21 @@ export default class TextBlocksCreator extends React.Component<
   };
   onButtonClicked = key => {
     this.setState({ selected: key });
+    this.props.onMainTextButtonPressed(key);
   };
 
   renderPanel = () => {
     return <p>asdasd</p>;
   };
 
-  getOnButtonClicked = key => () => this.onButtonClicked(key);
+  onTextBlockChanged = (e, key) => {
+    const { onTextChanged, onMainTextButtonPressed } = this.props;
+    onMainTextButtonPressed(key);
+    onTextChanged(e);
+  };
 
   render() {
     const { selected } = this.state;
-    const { onTextChanged } = this.props;
     return (
       <Card elevation={Elevation.ONE} css={sidebarContainerStyle}>
         <H4>Agregar Texto</H4>
@@ -51,16 +56,16 @@ export default class TextBlocksCreator extends React.Component<
                 key={key}
                 css={customButtonStyle}
                 active={selected === key}
-                onClick={this.getOnButtonClicked(key)}
+                onClick={() => this.onButtonClicked(key)}
               />
             ))}
           </ButtonGroup>
         </FormGroup>
-        {TextBlocksCreator.buttonsKeys.map(key => (
+        {TextBlocksCreator.buttonsKeys.map((key, index) => (
           <TextBlocksConfigPanel
             key={key}
             id={key}
-            onChange={onTextChanged}
+            onChange={e => this.onTextBlockChanged(e, key)}
             shown={selected === key}
           />
         ))}

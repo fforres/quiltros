@@ -14,6 +14,7 @@ export interface ILeftSidebarProps {
   canvasRef: RefObject<any>;
   formValues: IAdoptionForm;
   onInputChanged: (key: keyof IAdoptionForm, value: any) => void;
+  onMainTextButtonPressed: (key: number) => void;
   onTextChanged: (arg1: ITextBlocksConfigPanelState) => void;
 }
 
@@ -97,13 +98,19 @@ export default class LeftSidebar extends Component<
   };
 
   render() {
-    const { onTextChanged, formValues, onInputChanged } = this.props;
+    const {
+      onTextChanged,
+      formValues,
+      onInputChanged,
+      onMainTextButtonPressed
+    } = this.props;
     return (
       <form onSubmit={this.onSubmit} onChange={this.onFormChange}>
         <SubmitButton />
         <PetInformation onChange={onInputChanged} formValues={formValues} />
         <ContactInformation onChange={onInputChanged} formValues={formValues} />
         <TextBlocksCreator
+          onMainTextButtonPressed={onMainTextButtonPressed}
           onTextChanged={onTextChanged}
           onChange={onInputChanged}
           formValues={formValues}

@@ -15,8 +15,10 @@ interface IHomeState {
 }
 
 export interface ICanvasTexts {
-  selectedTextBlock: number;
+  selectedTextBlock: string; // TODO: Change this for a string union type
   textBlocks: {
+    // TODO: Change keys on this objects also for a string uniion type.
+    // (Based on the types)
     [s: string]: ITextBlocksConfigPanelState;
   };
 }
@@ -39,7 +41,7 @@ class Home extends Component<any, IHomeState> {
   state = {
     canvasImage: null,
     canvasTexts: {
-      selectedTextBlock: -1,
+      selectedTextBlock: '',
       textBlocks: {}
     },
     formValues: {
@@ -58,6 +60,16 @@ class Home extends Component<any, IHomeState> {
   };
 
   stageRef = createRef<any>();
+
+  setSelectedTextBlock = selectedTextBlock => {
+    const { canvasTexts } = this.state;
+    this.setState({
+      canvasTexts: {
+        ...canvasTexts,
+        selectedTextBlock
+      }
+    });
+  };
 
   setCanvasImage = (image: HTMLImageElement) => {
     this.setState({
@@ -99,6 +111,7 @@ class Home extends Component<any, IHomeState> {
           <LeftSidebar
             canvasRef={this.stageRef}
             formValues={formValues}
+            onMainTextButtonPressed={this.setSelectedTextBlock}
             onInputChanged={this.setAdoptionFormField}
             onTextChanged={this.onTextChanged}
           />
