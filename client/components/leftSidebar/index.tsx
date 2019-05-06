@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-import React, { FormEvent } from 'react';
+import React, { Component, FormEvent, RefObject } from 'react';
 import ReactGA from 'react-ga';
 
 import { IAdoptionForm } from '../../../pages';
@@ -11,6 +11,7 @@ import TextBlocksCreator from './textBlocksCreator';
 import { ITextBlocksConfigPanelState } from './textBlocksCreator/panel';
 
 export interface ILeftSidebarProps {
+  canvasRef: RefObject<any>;
   createdImage?: Blob;
   formValues: IAdoptionForm;
   onInputChanged: (key: keyof IAdoptionForm, value: any) => void;
@@ -21,64 +22,64 @@ export interface ILeftSidebarState {
   isFormValid: boolean;
 }
 
-export default class LeftSidebar extends React.Component<
+export default class LeftSidebar extends Component<
   ILeftSidebarProps,
   ILeftSidebarState
 > {
-  static validInputNames = [
-    'nombre',
-    'esterilizado',
-    'chip',
-    'vacunas',
-    'tamaño',
-    'extra',
-    'teléfono',
-    'whatsapp',
-    'email',
-    'texto'
-  ];
-
   state = {
     isFormValid: false
   };
 
-  getFormData = (e: FormEvent): { formData: FormData; formJson: object } => {
-    const validInputNamesSet = new Set(LeftSidebar.validInputNames);
+  getFormData = (): { formData: FormData; formJson: object } => {
     const formData = new FormData();
-    const formJson = {};
-    Array.from(e.currentTarget as any)
-      .filter((formElement: any) => formElement.name)
-      .map((formElement: any) => {
-        const { name, value } = formElement;
-        const mappedFormElement = {
-          name: name.toLowerCase(),
-          value
-        };
-        if (formElement.type === 'checkbox') {
-          mappedFormElement.value = formElement.value === 'on';
-        }
-        return mappedFormElement;
-      })
-      .filter(mappedFormElement => {
-        return validInputNamesSet.has(mappedFormElement.name);
-      })
-      .forEach(el => {
-        formJson[el.name] = el.value;
-        formData.append(el.name, el.value);
-      });
+    const { formValues } = this.props;
+    for (const key in formValues) {
+      if (formValues.hasOwnProperty(key)) {
+        const element = formValues[key];
+        formData.append(key, element);
+      }
+    }
     const { createdImage } = this.props;
     if (createdImage) {
       formData.append('image', createdImage);
     }
+    const imageBlob = this.onExportImageClicked();
+    formData.append('image', imageBlob);
     return {
       formData,
-      formJson
+      formJson: formValues
     };
+  };
+
+  dataURItoBlob = dataURI => {
+    let byteString;
+    let mimestring;
+
+    if (dataURI.split(',')[0].indexOf('base64') !== -1) {
+      byteString = atob(dataURI.split(',')[1]);
+    } else {
+      byteString = decodeURI(dataURI.split(',')[1]);
+    }
+    mimestring = dataURI
+      .split(',')[0]
+      .split(':')[1]
+      .split(';')[0];
+    const content = new Array();
+    for (let i = 0; i < byteString.length; i++) {
+      content[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([new Uint8Array(content)], { type: mimestring });
+  };
+
+  onExportImageClicked = () => {
+    const imgB64 = this.props.canvasRef.current!.toDataURL({ pixelRatio: 2 });
+    const blob = this.dataURItoBlob(imgB64);
+    return blob;
   };
 
   onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const { formData, formJson } = this.getFormData(e);
+    const { formData, formJson } = this.getFormData();
     const response = await fetch('/api/image', {
       body: formData,
       method: 'POST'
@@ -93,8 +94,9 @@ export default class LeftSidebar extends React.Component<
   };
 
   onFormChange = (e: FormEvent<HTMLFormElement>) => {
+    const isFormValid = e.currentTarget.checkValidity();
     this.setState({
-      isFormValid: e.currentTarget.checkValidity()
+      isFormValid
     });
   };
 

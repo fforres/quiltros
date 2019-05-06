@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import '@blueprintjs/core/lib/css/blueprint.css';
 import { jsx } from '@emotion/core';
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import Canvas from '../client/components/canvas';
 import LeftSidebar from '../client/components/leftSidebar';
 import { ITextBlocksConfigPanelState } from '../client/components/leftSidebar/textBlocksCreator/panel';
@@ -49,6 +49,8 @@ class Home extends Component<any, IHomeState> {
     textBlocks: {}
   };
 
+  stageRef = createRef<any>();
+
   setCanvasImage = (image: HTMLImageElement) => {
     this.setState({
       canvasImage: image
@@ -86,12 +88,14 @@ class Home extends Component<any, IHomeState> {
         <Nav onImageUploaded={this.setCanvasImage} />
         <section data-name="bodycontainer" css={containerStyle}>
           <LeftSidebar
+            canvasRef={this.stageRef}
             formValues={formValues}
             onInputChanged={this.setAdoptionFormField}
             createdImage={image}
             onTextChanged={this.onTextChanged}
           />
           <Canvas
+            onRef={this.stageRef}
             onImageCreated={this.onImageCreated}
             textBlocks={textBlocks}
             image={canvasImage}
