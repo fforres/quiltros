@@ -9,10 +9,18 @@ import Nav from '../client/components/nav';
 import { containerStyle } from './styles';
 
 interface IHomeState {
-  image?: Blob;
   canvasImage: HTMLImageElement | null;
-  textBlocks: { [s: string]: ITextBlocksConfigPanelState };
+  canvasTexts: ICanvasTexts;
   formValues: IAdoptionForm;
+}
+
+export interface ICanvasTexts {
+  selectedTextBlock: string; // TODO: Change this for a string union type
+  textBlocks: {
+    // TODO: Change keys on this objects also for a string uniion type.
+    // (Based on the types of TextBlocksCreator.buttonsKeys )
+    [s: string]: ITextBlocksConfigPanelState;
+  };
 }
 
 export interface IAdoptionForm {
@@ -32,6 +40,10 @@ export interface IAdoptionForm {
 class Home extends Component<any, IHomeState> {
   state = {
     canvasImage: null,
+    canvasTexts: {
+      selectedTextBlock: '',
+      textBlocks: {}
+    },
     formValues: {
       chip: false,
       'edad-mascota': '',
@@ -44,12 +56,20 @@ class Home extends Component<any, IHomeState> {
       'telefono-contacto': '',
       vacunas: false,
       'whatsapp-contacto': ''
-    },
-    image: undefined,
-    textBlocks: {}
+    }
   };
 
   stageRef = createRef<any>();
+
+  setSelectedTextBlock = selectedTextBlock => {
+    const { canvasTexts } = this.state;
+    this.setState({
+      canvasTexts: {
+        ...canvasTexts,
+        selectedTextBlock
+      }
+    });
+  };
 
   setCanvasImage = (image: HTMLImageElement) => {
     this.setState({
@@ -58,11 +78,15 @@ class Home extends Component<any, IHomeState> {
   };
 
   onTextChanged = (s: ITextBlocksConfigPanelState) => {
-    const { textBlocks } = this.state;
+    const { canvasTexts } = this.state;
+    const { textBlocks } = canvasTexts;
     this.setState({
-      textBlocks: {
-        ...textBlocks,
-        [s.id]: s
+      canvasTexts: {
+        ...canvasTexts,
+        textBlocks: {
+          ...textBlocks,
+          [s.id]: s
+        }
       }
     });
   };
@@ -76,12 +100,9 @@ class Home extends Component<any, IHomeState> {
     });
   };
 
-  onImageCreated = (image: Blob) => {
-    this.setState({ image });
-  };
-
   render() {
-    const { canvasImage, textBlocks, image, formValues } = this.state;
+    const { canvasImage, canvasTexts, formValues } = this.state;
+    const { selectedTextBlock } = canvasTexts;
 
     return (
       <div>
@@ -90,14 +111,15 @@ class Home extends Component<any, IHomeState> {
           <LeftSidebar
             canvasRef={this.stageRef}
             formValues={formValues}
+            onMainTextButtonPressed={this.setSelectedTextBlock}
+            selectedTextBlock={selectedTextBlock}
             onInputChanged={this.setAdoptionFormField}
-            createdImage={image}
             onTextChanged={this.onTextChanged}
           />
           <Canvas
+            onTextBlockSelected={this.setSelectedTextBlock}
             onRef={this.stageRef}
-            onImageCreated={this.onImageCreated}
-            textBlocks={textBlocks}
+            canvasTexts={canvasTexts}
             image={canvasImage}
           />
         </section>

@@ -12,9 +12,10 @@ import { ITextBlocksConfigPanelState } from './textBlocksCreator/panel';
 
 export interface ILeftSidebarProps {
   canvasRef: RefObject<any>;
-  createdImage?: Blob;
   formValues: IAdoptionForm;
+  selectedTextBlock: string;
   onInputChanged: (key: keyof IAdoptionForm, value: any) => void;
+  onMainTextButtonPressed: (key: number) => void;
   onTextChanged: (arg1: ITextBlocksConfigPanelState) => void;
 }
 
@@ -38,10 +39,6 @@ export default class LeftSidebar extends Component<
         const element = formValues[key];
         formData.append(key, element);
       }
-    }
-    const { createdImage } = this.props;
-    if (createdImage) {
-      formData.append('image', createdImage);
     }
     const imageBlob = this.onExportImageClicked();
     formData.append('image', imageBlob);
@@ -79,6 +76,7 @@ export default class LeftSidebar extends Component<
 
   onSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
     const { formData, formJson } = this.getFormData();
     const response = await fetch('/api/image', {
       body: formData,
@@ -101,15 +99,23 @@ export default class LeftSidebar extends Component<
   };
 
   render() {
-    const { onTextChanged, formValues, onInputChanged } = this.props;
+    const {
+      onTextChanged,
+      formValues,
+      onInputChanged,
+      onMainTextButtonPressed,
+      selectedTextBlock
+    } = this.props;
     return (
       <form onSubmit={this.onSubmit} onChange={this.onFormChange}>
         <SubmitButton />
         <PetInformation onChange={onInputChanged} formValues={formValues} />
         <ContactInformation onChange={onInputChanged} formValues={formValues} />
         <TextBlocksCreator
+          onMainTextButtonPressed={onMainTextButtonPressed}
           onTextChanged={onTextChanged}
           onChange={onInputChanged}
+          selectedTextBlock={selectedTextBlock}
           formValues={formValues}
         />
         <SubmitButton />

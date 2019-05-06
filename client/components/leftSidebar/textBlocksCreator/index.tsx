@@ -16,6 +16,8 @@ import { customButtonStyle, sidebarContainerStyle } from './style';
 export interface ITextBlocksCreatorProps {
   onTextChanged: (arg1: ITextBlocksConfigPanelState) => void;
   onChange: (key: keyof IAdoptionForm, value: any) => void;
+  onMainTextButtonPressed: (key: number) => void;
+  selectedTextBlock: string;
   formValues: IAdoptionForm;
 }
 
@@ -28,18 +30,23 @@ export default class TextBlocksCreator extends React.Component<
     selected: 'alignment-top'
   };
   onButtonClicked = key => {
-    this.setState({ selected: key });
+    // this.setState({ selected: key });
+    this.props.onMainTextButtonPressed(key);
   };
 
   renderPanel = () => {
     return <p>asdasd</p>;
   };
 
-  getOnButtonClicked = key => () => this.onButtonClicked(key);
+  onTextBlockChanged = (e, key) => {
+    const { onTextChanged, onMainTextButtonPressed } = this.props;
+    onMainTextButtonPressed(key);
+    onTextChanged(e);
+  };
 
   render() {
     const { selected } = this.state;
-    const { onTextChanged } = this.props;
+    const { selectedTextBlock } = this.props;
     return (
       <Card elevation={Elevation.ONE} css={sidebarContainerStyle}>
         <H4>Agregar Texto</H4>
@@ -50,8 +57,8 @@ export default class TextBlocksCreator extends React.Component<
                 icon={key as any}
                 key={key}
                 css={customButtonStyle}
-                active={selected === key}
-                onClick={this.getOnButtonClicked(key)}
+                active={selectedTextBlock === key}
+                onClick={() => this.onButtonClicked(key)}
               />
             ))}
           </ButtonGroup>
@@ -60,8 +67,8 @@ export default class TextBlocksCreator extends React.Component<
           <TextBlocksConfigPanel
             key={key}
             id={key}
-            onChange={onTextChanged}
-            shown={selected === key}
+            onChange={e => this.onTextBlockChanged(e, key)}
+            shown={selectedTextBlock === key}
           />
         ))}
       </Card>

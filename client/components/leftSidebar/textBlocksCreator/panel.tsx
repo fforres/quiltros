@@ -63,40 +63,40 @@ export default class TextBlocksConfigPanel extends React.Component<
     const { fontSize, color } = this.state;
     return (
       <div css={[hiddenStyle, shown && shownStyle]}>
-        <FormGroup label='Texto'>
+        <FormGroup label="Texto">
           <TextArea
             fill
             growVertically
-            name='Texto'
+            name="Texto"
             onChange={this.onMainTextChanged}
           />
         </FormGroup>
-        <FormGroup label='Tamaño'>
+        <FormGroup label="Tamaño">
           <ButtonGroup fill>
             <Button
               large
               active={fontSize === 'small'}
               onClick={this.setHeight('small')}
             >
-              <Icon iconSize={10} icon='font' />
+              <Icon iconSize={10} icon="font" />
             </Button>
             <Button
               large
               active={fontSize === 'medium'}
               onClick={this.setHeight('medium')}
             >
-              <Icon iconSize={16} icon='font' />
+              <Icon iconSize={16} icon="font" />
             </Button>
             <Button
               large
               active={fontSize === 'large'}
               onClick={this.setHeight('large')}
             >
-              <Icon iconSize={24} icon='font' />
+              <Icon iconSize={24} icon="font" />
             </Button>
           </ButtonGroup>
         </FormGroup>
-        <FormGroup label='Color'>
+        <FormGroup label="Color">
           <ButtonGroup fill>
             {TextBlocksConfigPanel.colors.map(el => (
               <ColorSelector
