@@ -6,7 +6,7 @@
     "tslint-eslint-rules"
   ],
   "linterOptions": {
-    "exclude": ["migrations/*", "*.js", "*.d.ts"]
+    "exclude": ["migrations/*", "*.js", "*.d.ts", "dist/*", ".next/*"]
   },
   "rules": {
     "interface-name": false,
