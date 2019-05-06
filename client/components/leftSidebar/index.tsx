@@ -108,7 +108,6 @@ export default class LeftSidebar extends Component<
     } = this.props;
     return (
       <form onSubmit={this.onSubmit} onChange={this.onFormChange}>
-        <SubmitButton />
         <PetInformation onChange={onInputChanged} formValues={formValues} />
         <ContactInformation onChange={onInputChanged} formValues={formValues} />
         <TextBlocksCreator

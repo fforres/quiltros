@@ -3,8 +3,8 @@ import { resetCss } from './resetcss';
 import ReactGA from 'react-ga';
 ReactGA.initialize('UA-139082777-1', { debug: true, gaOptions: {
   alwaysSendReferrer: true,
+  cookieName: '_quiltros_ga',
   siteSpeedSampleRate: true,
-  cookieName: '_quiltros_ga'
 }})
 
 class MyDocument extends Document {

@@ -122,9 +122,9 @@ class Canvas extends Component<IAppProps, IAppState> {
               canvasWidth={canvasWidth}
             />
             <Layer>
-              {Object.values(textBlocks).map(textBlock => {
-                return <Text key={textBlock.id} {...textBlock} />;
-              })}
+              {Object.values(textBlocks).map(textBlock => (
+                <Text key={textBlock.id} {...textBlock} />
+              ))}
               <TransformerComponent
                 resizeEnabled
                 rotateEnabled={false}
