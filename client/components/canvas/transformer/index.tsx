@@ -1,11 +1,12 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 import Konva from 'konva';
-import React, { createRef } from 'react';
+import React, { createRef, RefObject } from 'react';
 import { Transformer } from 'react-konva';
 
 interface ITransformerComponent extends Konva.TransformerConfig {
   selectedShapeName: string;
+  onMount: (arg1: RefObject<any>) => void;
 }
 
 class TransformerComponent extends React.Component<ITransformerComponent> {
@@ -17,6 +18,7 @@ class TransformerComponent extends React.Component<ITransformerComponent> {
 
   componentDidMount() {
     this.checkNode();
+    this.props.onMount(this.transformerRef);
   }
 
   componentDidUpdate() {

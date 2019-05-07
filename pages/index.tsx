@@ -117,6 +117,7 @@ class Home extends Component<any, IHomeState> {
             onTextChanged={this.onTextChanged}
           />
           <Canvas
+            canvasRef={this.stageRef}
             onTextBlockSelected={this.setSelectedTextBlock}
             onRef={this.stageRef}
             canvasTexts={canvasTexts}

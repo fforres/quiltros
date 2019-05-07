@@ -1,10 +1,13 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
+import { KonvaEventObject } from 'konva/types/types';
 import React, { createRef } from 'react';
 import { Text } from 'react-konva';
 import { ITextBlocksConfigPanelState } from '../../leftSidebar/textBlocksCreator/panel';
 
-interface ICanvasText extends ITextBlocksConfigPanelState {}
+interface ICanvasText extends ITextBlocksConfigPanelState {
+  onDoubleClick: (evt: KonvaEventObject<MouseEvent>) => void;
+}
 class CanvasText extends React.Component<ICanvasText, any> {
   static getDerivedStateFromProps(props) {
     let stateFontSize = 10;
@@ -70,8 +73,19 @@ class CanvasText extends React.Component<ICanvasText, any> {
       y
     };
   };
+
+  // onDoubleClick = (e) => {
+  //   const target = e.currentTarget
+  //   // console.log(e.currentTarget)
+  //   // console.log(this.transformerRef)
+  //   target.hide();
+  //   // tr.hide();
+  //   // layer.draw();
+
+  // }
+
   render() {
-    const { id, text, color } = this.props;
+    const { id, text, color, onDoubleClick } = this.props;
     const { fontSize } = this.state;
     return (
       <Text
@@ -85,6 +99,7 @@ class CanvasText extends React.Component<ICanvasText, any> {
         draggable
         dragBoundFunc={this.onDrag}
         onTransform={this.onTransform}
+        onDblClick={onDoubleClick}
       />
     );
   }
