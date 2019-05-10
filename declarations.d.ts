@@ -7,4 +7,10 @@ export declare global {
   interface Document {
     documentMode: string;
   }
+
+  interface Window {
+    isFirefox: boolean;
+    isSafari: boolean;
+    isEdge: boolean;
+  }
 }

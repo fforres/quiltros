@@ -91,6 +91,23 @@ class Home extends Component<any, IHomeState> {
     });
   };
 
+  onTextBlockChanged = (textId, textValue) => {
+    const { canvasTexts } = this.state;
+    const { textBlocks } = canvasTexts;
+    this.setState({
+      canvasTexts: {
+        ...canvasTexts,
+        textBlocks: {
+          ...textBlocks,
+          [textId]: {
+            ...textBlocks[textId],
+            text: textValue
+          }
+        }
+      }
+    });
+  };
+
   setAdoptionFormField = (key: keyof IAdoptionForm, value: any) => {
     this.setState({
       formValues: {
@@ -118,10 +135,12 @@ class Home extends Component<any, IHomeState> {
           />
           <Canvas
             canvasRef={this.stageRef}
-            onTextBlockSelected={this.setSelectedTextBlock}
-            onRef={this.stageRef}
             canvasTexts={canvasTexts}
+            currentCanvasText={canvasTexts[selectedTextBlock]}
             image={canvasImage}
+            onRef={this.stageRef}
+            onTextChanged={this.onTextBlockChanged}
+            onTextBlockSelected={this.setSelectedTextBlock}
           />
         </section>
       </div>

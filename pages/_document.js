@@ -10,6 +10,10 @@ ReactGA.initialize('UA-139082777-1', { debug: true, gaOptions: {
 class MyDocument extends Document {
   componentDidMount() {
     ReactGA.pageview(window.location.pathname + window.location.search)
+    window.isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+    window.isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    window.isEdge = document.documentMode || /Edge/.test(navigator.userAgent);
+
   }
   static async getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx);

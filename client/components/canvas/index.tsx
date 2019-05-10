@@ -2,11 +2,13 @@
 import { Card, Elevation } from '@blueprintjs/core';
 import { jsx } from '@emotion/core';
 import { KonvaEventObject } from 'konva/types/types';
-import React, { Component, createRef, RefObject } from 'react';
+import React, { Component, createRef, CSSProperties, RefObject } from 'react';
 import { Layer, Stage } from 'react-konva';
 
 import { ICanvasTexts } from '../../../pages';
+import { ITextBlocksConfigPanelState } from '../leftSidebar/textBlocksCreator/panel';
 import BackgroundImage from './backgroundImage';
+import EditTextArea from './editTextArea';
 import { canvasStyle } from './style';
 import CanvasText from './Text';
 import TransformerComponent from './transformer';
@@ -17,16 +19,28 @@ interface IAppProps {
   onTextBlockSelected: (arg1: string) => void;
   image: HTMLImageElement | null;
   canvasTexts: ICanvasTexts;
+  onTextChanged: (arg1: string, arg2: string) => void;
+  currentCanvasText: ITextBlocksConfigPanelState;
 }
 
 interface IAppState {
+  showEditTextArea: boolean;
   backgroundImage: HTMLImageElement | null;
+  editTextAreaProps: any;
+  onTextAreaClosed: () => void;
+  targetToRestore: any[];
+  editTextAreaValue: string;
 }
 class Canvas extends Component<IAppProps, IAppState> {
   state = {
     backgroundImage: null,
     canvasHeight: 750,
-    canvasWidth: 500
+    canvasWidth: 500,
+    editTextAreaProps: {},
+    editTextAreaValue: '',
+    onTextAreaClosed: () => null,
+    showEditTextArea: false,
+    targetToRestore: []
   };
 
   transformerRef = createRef<any>();
@@ -80,42 +94,79 @@ class Canvas extends Component<IAppProps, IAppState> {
     }
   }
 
+  onTextClick = (e: KonvaEventObject<MouseEvent>) => {
+    e.cancelBubble = true;
+    const selectedTextBlock = e.target.name();
+    this.props.onTextBlockSelected(selectedTextBlock);
+  };
+
   handleStageMouseDown = e => {
-    // If the thing we are clicking is the canvas,
-    // unselect the transformer
-    const { onTextBlockSelected } = this.props;
+    const showEditTextArea = false;
+    let selectedTextBlock = '';
     const { target } = e;
-    if (target === target.getStage()) {
-      onTextBlockSelected('');
-      return;
-    }
-    // If the thing we are clicking is the transformer - do nothing
-    const clickedOnTransformer = target.getParent().className === 'Transformer';
-    if (clickedOnTransformer) {
-      return;
+    const { targetToRestore } = this.state;
+    const { onTextBlockSelected } = this.props;
+    const clickedOnStage = target === target.getStage();
+    const clickedOnTransformer =
+      target.getParent() && target.getParent().className === 'Transformer';
+    const hasNoName = Boolean(target.name()); // If the thing we are clicking has no name
+    const isTextNode = typeof e.target.text === 'function'; // TODO: maybe remove this?
+    if (isTextNode) {
+      selectedTextBlock = e.target.name();
     }
 
-    // If the thing we are clicking has no name, do nothing
-    const name = target.name();
-    if (!name) {
-      return;
+    if (targetToRestore) {
+      targetToRestore.forEach((el: any) => {
+        const canvasRef = this.props.canvasRef.current!;
+        el.show();
+        canvasRef.draw();
+      });
     }
-    onTextBlockSelected(name);
+
+    this.setState(
+      {
+        showEditTextArea
+      },
+      () => onTextBlockSelected(selectedTextBlock)
+    );
+  };
+
+  showElements = currentTarget => () => {
+    this.setState(
+      {
+        showEditTextArea: false
+      },
+      () => {
+        currentTarget.hide();
+        const transformerRef = this.transformerRef.current!;
+        const canvasRef = this.props.canvasRef.current!;
+        currentTarget.show();
+        transformerRef.show();
+        canvasRef.draw();
+      }
+    );
+  };
+
+  hideElements = currentTarget => {
+    currentTarget.hide();
+    const transformerRef = this.transformerRef.current!;
+    const canvasRef = this.props.canvasRef.current!;
+    currentTarget.hide();
+    transformerRef.hide();
+    canvasRef.draw();
   };
 
   onDoubleClick = (evt: KonvaEventObject<MouseEvent>) => {
     const currentTarget: any = evt.target;
     const transformerRef = this.transformerRef.current!;
     const canvasRef = this.props.canvasRef.current!;
-    currentTarget.hide();
-    transformerRef.hide();
-    canvasRef.draw();
+    this.hideElements(currentTarget);
 
-    // create textarea over canvas with absolute position
+    // We will create a textarea absolutely positioned over the canvas
+    // And we will render it on a portal
     // first we need to find position for textarea
-    // how to find it?
 
-    // at first lets find position of text node relative to the stage:
+    // At first lets find position of text node relative to the stage:
     const { x, y } = currentTarget.absolutePosition();
     const { left, top } = canvasRef.container().getBoundingClientRect();
 
@@ -125,115 +176,34 @@ class Canvas extends Component<IAppProps, IAppState> {
       y: top + y
     };
 
-    // // create textarea and style it
-    const textarea = document.createElement('textarea');
-    document.body.appendChild(textarea);
-
-    // apply many styles to match text on canvas as close as possible
-    // remember that text rendering on canvas and on the textarea can be different
-    // and sometimes it is hard to make it 100% the same. But we will try...
-    textarea.value = currentTarget.text();
-    textarea.style.position = 'absolute';
-    textarea.style.top = areaPosition.y + 'px';
-    textarea.style.left = areaPosition.x + 'px';
-    textarea.style.width =
-      currentTarget.width() - currentTarget.padding() * 2 + 'px';
-    textarea.style.height =
-      currentTarget.height() - currentTarget.padding() * 2 + 5 + 'px';
-    textarea.style.fontSize = currentTarget.fontSize() + 'px';
-    textarea.style.border = 'none';
-    textarea.style.padding = '0px';
-    textarea.style.margin = '0px';
-    textarea.style.overflow = 'hidden';
-    textarea.style.background = 'none';
-    textarea.style.outline = 'none';
-    textarea.style.resize = 'none';
-    textarea.style.lineHeight = currentTarget.lineHeight();
-    textarea.style.fontFamily = currentTarget.fontFamily();
-    textarea.style.transformOrigin = 'left top';
-    textarea.style.textAlign = currentTarget.align();
-    textarea.style.color = currentTarget.fill();
-
-    const rotation = currentTarget.rotation();
-    let transform = '';
-    if (rotation) {
-      transform += 'rotateZ(' + rotation + 'deg)';
-    }
-    const fontSize = 10;
-    let px = 0;
-    // also we need to slightly move textarea on firefox
-    // because it jumps a bit
-    const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-    const isEdge = document.documentMode || /Edge/.test(navigator.userAgent);
-
-    if (isFirefox) {
-      px += 2 + Math.round(fontSize / 20);
-    }
-
-    transform += 'translateY(-' + px + 'px)';
-    textarea.style.transform = transform;
-    // reset height
-    textarea.style.height = 'auto';
-    // after browsers resized it we can set actual value
-    textarea.style.height = textarea.scrollHeight + 3 + 'px';
-    textarea.focus();
-
-    const removeTextarea = () => {
-      const parentNode = textarea.parentNode;
-      if (parentNode) {
-        parentNode.removeChild(textarea);
-        window.removeEventListener('click', handleOutsideClick);
-        currentTarget.show();
-        transformerRef.show();
-        transformerRef.forceUpdate();
-        canvasRef.draw();
-      }
+    // Create textarea styles to match text on canvas as close as possible
+    // (Text rendering on canvas and on the textarea can be different
+    // and sometimes it is hard to make it 100% the same)
+    const targetToRestore = [currentTarget, transformerRef];
+    const showEditTextArea = true;
+    const editTextAreaValue = currentTarget.text();
+    const editTextAreaProps = {
+      color: currentTarget.fill() + '',
+      fontFamily: currentTarget.fontFamily() + '',
+      fontSize: currentTarget.fontSize() + 'px',
+      height: currentTarget.height() + 'px',
+      left: areaPosition.x + 'px',
+      lineHeight: currentTarget.lineHeight() + '',
+      padding: currentTarget.padding() + 'px',
+      textAlign: currentTarget.align() + '',
+      top: areaPosition.y + 'px',
+      transformOrigin: 'left top',
+      width: currentTarget.width() + 'px'
     };
 
-    const setTextareaWidth = newWidth => {
-      if (!newWidth) {
-        // set width for placeholder
-        newWidth = currentTarget.placeholder.length * currentTarget.fontSize();
-      }
-      if (isSafari || isFirefox) {
-        newWidth = Math.ceil(newWidth);
-      }
-      if (isEdge) {
-        newWidth += 1;
-      }
-      textarea.style.width = newWidth + 'px';
-    };
+    const onTextAreaClosed = this.showElements(currentTarget);
 
-    textarea.addEventListener('keydown', e => {
-      // hide on enter
-      // but don't hide on shift + enter
-      if (e.keyCode === 13 && !e.shiftKey) {
-        currentTarget.text(textarea.value);
-        removeTextarea();
-      }
-      // on esc do not set value back to node
-      if (e.keyCode === 27) {
-        removeTextarea();
-      }
-    });
-
-    textarea.addEventListener('keydown', e => {
-      const scale = currentTarget.getAbsoluteScale().x;
-      setTextareaWidth(currentTarget.width() * scale);
-      textarea.style.height = 'auto';
-      textarea.style.height =
-        textarea.scrollHeight + currentTarget.fontSize() + 'px';
-    });
-
-    const handleOutsideClick = e => {
-      if (e.target === textarea) {
-        return;
-      }
-      removeTextarea();
-    };
-    setTimeout(() => {
-      window.addEventListener('click', handleOutsideClick);
+    this.setState({
+      editTextAreaProps,
+      editTextAreaValue,
+      onTextAreaClosed,
+      showEditTextArea,
+      targetToRestore
     });
   };
 
@@ -242,8 +212,15 @@ class Canvas extends Component<IAppProps, IAppState> {
   };
 
   render() {
-    const { backgroundImage, canvasHeight, canvasWidth } = this.state;
-    const { canvasTexts, onRef } = this.props;
+    const {
+      backgroundImage,
+      canvasHeight,
+      canvasWidth,
+      showEditTextArea,
+      editTextAreaProps,
+      onTextAreaClosed
+    } = this.state;
+    const { canvasTexts, onRef, onTextChanged } = this.props;
     const { textBlocks, selectedTextBlock } = canvasTexts;
     return (
       <Card elevation={Elevation.ONE} css={canvasStyle}>
@@ -252,7 +229,7 @@ class Canvas extends Component<IAppProps, IAppState> {
             ref={onRef}
             width={canvasWidth}
             height={canvasHeight}
-            onMouseDown={this.handleStageMouseDown}
+            onClick={this.handleStageMouseDown}
           >
             <BackgroundImage
               backgroundImage={backgroundImage}
@@ -264,6 +241,7 @@ class Canvas extends Component<IAppProps, IAppState> {
                 <CanvasText
                   key={textBlock.id}
                   {...textBlock}
+                  onClick={this.onTextClick}
                   onDoubleClick={this.onDoubleClick}
                 />
               ))}
@@ -276,6 +254,15 @@ class Canvas extends Component<IAppProps, IAppState> {
               />
             </Layer>
           </Stage>
+        )}
+        {showEditTextArea && textBlocks[selectedTextBlock].text && (
+          <EditTextArea
+            onTextAreaClosed={onTextAreaClosed}
+            onTextChanged={onTextChanged}
+            selectedtextblockid={selectedTextBlock}
+            value={textBlocks[selectedTextBlock].text}
+            style={editTextAreaProps}
+          />
         )}
       </Card>
     );

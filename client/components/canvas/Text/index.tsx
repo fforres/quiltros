@@ -7,7 +7,10 @@ import { ITextBlocksConfigPanelState } from '../../leftSidebar/textBlocksCreator
 
 interface ICanvasText extends ITextBlocksConfigPanelState {
   onDoubleClick: (evt: KonvaEventObject<MouseEvent>) => void;
+  onClick: (evt: KonvaEventObject<MouseEvent>) => void;
+  id: string;
 }
+
 class CanvasText extends React.Component<ICanvasText, any> {
   static getDerivedStateFromProps(props) {
     let stateFontSize = 10;
@@ -34,12 +37,10 @@ class CanvasText extends React.Component<ICanvasText, any> {
 
   onTransform = () => {
     const ref = this.transformerRef.current!;
-    if (ref) {
-      ref.setAttrs({
-        scaleX: 1,
-        width: ref.width() * ref.scaleX()
-      });
-    }
+    ref.setAttrs({
+      scaleX: 1,
+      width: ref.width() * ref.scaleX()
+    });
   };
 
   onDrag = pos => {
@@ -74,18 +75,8 @@ class CanvasText extends React.Component<ICanvasText, any> {
     };
   };
 
-  // onDoubleClick = (e) => {
-  //   const target = e.currentTarget
-  //   // console.log(e.currentTarget)
-  //   // console.log(this.transformerRef)
-  //   target.hide();
-  //   // tr.hide();
-  //   // layer.draw();
-
-  // }
-
   render() {
-    const { id, text, color, onDoubleClick } = this.props;
+    const { id, text, color, onDoubleClick, onClick } = this.props;
     const { fontSize } = this.state;
     return (
       <Text
@@ -93,12 +84,14 @@ class CanvasText extends React.Component<ICanvasText, any> {
         fontSize={fontSize}
         ref={this.transformerRef}
         name={id}
+        id={id}
         fill={color}
         text={text}
         transformsEnabled="position"
         draggable
         dragBoundFunc={this.onDrag}
         onTransform={this.onTransform}
+        onClick={onClick}
         onDblClick={onDoubleClick}
       />
     );
