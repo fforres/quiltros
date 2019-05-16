@@ -30,10 +30,10 @@ export default class TextBlocksCreator extends React.Component<
   any
 > {
   static buttonsKeys = ['alignment-top', 'align-center', 'alignment-bottom'];
-  onTextBlockChanged = (key, value, textBlock) => {
+  onTextBlockChanged = textBlockId => (key, value) => {
     const { onTextChanged, onTextBlockInteracted } = this.props;
     onTextBlockInteracted(key);
-    onTextChanged(key, value, textBlock.id);
+    onTextChanged(key, value, textBlockId);
   };
 
   render() {
@@ -55,9 +55,7 @@ export default class TextBlocksCreator extends React.Component<
             key={textBlock.id}
             {...textBlock}
             onMouseDown={() => onTextBlockInteracted(textBlock.id)}
-            onChange={(key, value) =>
-              this.onTextBlockChanged(key, value, textBlock)
-            }
+            onChange={this.onTextBlockChanged(textBlock.id)}
             isSelected={selectedTextBlock === textBlock.id}
           />
         ))}

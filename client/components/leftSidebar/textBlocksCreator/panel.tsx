@@ -13,7 +13,7 @@ import ColorSelector from '../colorSelector';
 export interface ITextBlocksConfigPanelProps
   extends ITextBlocksConfigPanelState {
   isSelected: boolean;
-  onChange: (key: string, value: string, id: string) => void;
+  onChange: (key: string, value: string) => void;
   onMouseDown: () => void;
 }
 
@@ -29,36 +29,19 @@ export default class TextBlocksConfigPanel extends React.Component<
 > {
   static colors = ['black', 'red', 'green', 'purple', 'yellow', 'white'];
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      color: 'black',
-      fontSize: 'medium',
-      id: props.id,
-      text: ''
-    };
-  }
-
-  componentWillReceiveProps(nextProps: ITextBlocksConfigPanelProps) {
-    this.setState({
-      ...this.state,
-      ...nextProps
-    });
-  }
-
   onMainTextChanged = e => {
-    const { onChange, id } = this.props;
-    onChange('text', e.target.value, id);
+    const { onChange } = this.props;
+    onChange('text', e.target.value);
   };
 
   setHeight = fontSize => () => {
-    const { onChange, id } = this.props;
-    onChange('fontSize', fontSize, id);
+    const { onChange } = this.props;
+    onChange('fontSize', fontSize);
   };
 
   setSelectedColor = color => {
-    const { onChange, id } = this.props;
-    onChange('color', color, id);
+    const { onChange } = this.props;
+    onChange('color', color);
   };
 
   render() {
