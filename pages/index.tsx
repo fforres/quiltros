@@ -7,7 +7,7 @@ import Canvas from '../client/components/canvas';
 import LeftSidebar from '../client/components/leftSidebar';
 import { ITextBlocksConfigPanelState } from '../client/components/leftSidebar/textBlocksCreator/panel';
 import Nav from '../client/components/nav';
-import { containerStyle } from './styles';
+import { containerStyle, pageStyle } from './styles';
 
 interface IHomeState {
   canvasImage: HTMLImageElement | null;
@@ -158,7 +158,7 @@ class Home extends Component<any, IHomeState> {
     const { selectedTextBlock, textBlocks } = canvasTexts;
 
     return (
-      <div>
+      <div css={pageStyle}>
         <Nav onImageUploaded={this.setCanvasImage} />
         <section data-name="bodycontainer" css={containerStyle}>
           <LeftSidebar
