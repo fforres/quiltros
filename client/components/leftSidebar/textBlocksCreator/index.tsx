@@ -16,8 +16,12 @@ import { customButtonStyle, sidebarContainerStyle } from './style';
 export interface ITextBlocksCreatorProps {
   onTextChanged: (arg1: ITextBlocksConfigPanelState) => void;
   onChange: (key: keyof IAdoptionForm, value: any) => void;
-  onMainTextButtonPressed: (key: number) => void;
+  onAddTextBlockClicked: () => void;
+  onTextBlockInteracted: (key: string) => void;
   selectedTextBlock: string;
+  textBlocks: {
+    [id: string]: ITextBlocksConfigPanelState;
+  };
   formValues: IAdoptionForm;
 }
 
@@ -26,49 +30,33 @@ export default class TextBlocksCreator extends React.Component<
   any
 > {
   static buttonsKeys = ['alignment-top', 'align-center', 'alignment-bottom'];
-  state = {
-    selected: 'alignment-top'
-  };
-  onButtonClicked = key => {
-    // this.setState({ selected: key });
-    this.props.onMainTextButtonPressed(key);
-  };
-
-  renderPanel = () => {
-    return <p>asdasd</p>;
-  };
-
   onTextBlockChanged = (e, key) => {
-    const { onTextChanged, onMainTextButtonPressed } = this.props;
-    onMainTextButtonPressed(key);
+    const { onTextChanged, onTextBlockInteracted } = this.props;
+    onTextBlockInteracted(key);
     onTextChanged(e);
   };
 
   render() {
-    const { selected } = this.state;
-    const { selectedTextBlock } = this.props;
+    const {
+      selectedTextBlock,
+      onAddTextBlockClicked,
+      onTextBlockInteracted,
+      textBlocks
+    } = this.props;
     return (
       <Card elevation={Elevation.ONE} css={sidebarContainerStyle}>
-        <H4>Agregar Texto</H4>
         <FormGroup>
-          <ButtonGroup fill large>
-            {TextBlocksCreator.buttonsKeys.map(key => (
-              <Button
-                icon={key as any}
-                key={key}
-                css={customButtonStyle}
-                active={selectedTextBlock === key}
-                onClick={() => this.onButtonClicked(key)}
-              />
-            ))}
-          </ButtonGroup>
+          <H4>
+            Agregar Texto <Button icon="plus" onClick={onAddTextBlockClicked} />
+          </H4>
         </FormGroup>
-        {TextBlocksCreator.buttonsKeys.map(key => (
+        {Object.values(textBlocks).map(textBlock => (
           <TextBlocksConfigPanel
-            key={key}
-            id={key}
-            onChange={e => this.onTextBlockChanged(e, key)}
-            shown={selectedTextBlock === key}
+            key={textBlock.id}
+            {...textBlock}
+            onMouseDown={() => onTextBlockInteracted(textBlock.id)}
+            onChange={e => this.onTextBlockChanged(e, textBlock)}
+            isSelected={selectedTextBlock === textBlock.id}
           />
         ))}
       </Card>

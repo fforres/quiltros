@@ -156,6 +156,14 @@ class Canvas extends Component<IAppProps, IAppState> {
     canvasRef.draw();
   };
 
+  onMouseDown = (evt: KonvaEventObject<MouseEvent>) => {
+    const { onTextBlockSelected } = this.props;
+    evt.cancelBubble = true;
+    const currentTarget: any = evt.target;
+    const { id } = currentTarget.attrs;
+    onTextBlockSelected(id);
+  };
+
   onDoubleClick = (evt: KonvaEventObject<MouseEvent>) => {
     const currentTarget: any = evt.target;
     const transformerRef = this.transformerRef.current!;
@@ -193,7 +201,7 @@ class Canvas extends Component<IAppProps, IAppState> {
       textAlign: currentTarget.align() + '',
       top: areaPosition.y + 'px',
       transformOrigin: 'left top',
-      width: currentTarget.width() + 'px'
+      width: currentTarget.width() + 5 + 'px'
     };
 
     const onTextAreaClosed = this.showElements(currentTarget);
@@ -241,8 +249,12 @@ class Canvas extends Component<IAppProps, IAppState> {
                 <CanvasText
                   key={textBlock.id}
                   {...textBlock}
+                  position={{ x: 0, y: 0 }}
+                  maxHeight={canvasHeight}
+                  maxWidth={canvasWidth}
                   onClick={this.onTextClick}
                   onDoubleClick={this.onDoubleClick}
+                  onMouseDown={this.onMouseDown}
                 />
               ))}
               <TransformerComponent
@@ -258,10 +270,12 @@ class Canvas extends Component<IAppProps, IAppState> {
         {showEditTextArea && textBlocks[selectedTextBlock].text && (
           <EditTextArea
             onTextAreaClosed={onTextAreaClosed}
-            onTextChanged={onTextChanged}
+            onTextAreaChanged={onTextChanged}
             selectedtextblockid={selectedTextBlock}
             value={textBlocks[selectedTextBlock].text}
             style={editTextAreaProps}
+            maxWidth={canvasWidth}
+            maxHeight={canvasHeight}
           />
         )}
       </Card>

@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import '@blueprintjs/core/lib/css/blueprint.css';
 import { jsx } from '@emotion/core';
+import nanoid from 'nanoid';
 import React, { Component, createRef } from 'react';
 import Canvas from '../client/components/canvas';
 import LeftSidebar from '../client/components/leftSidebar';
@@ -61,6 +62,10 @@ class Home extends Component<any, IHomeState> {
 
   stageRef = createRef<any>();
 
+  componentDidMount() {
+    this.addTextBlock();
+  }
+
   setSelectedTextBlock = selectedTextBlock => {
     const { canvasTexts } = this.state;
     this.setState({
@@ -91,21 +96,26 @@ class Home extends Component<any, IHomeState> {
     });
   };
 
-  onTextBlockChanged = (textId, textValue) => {
+  onTextBlockChanged = (id, text) => {
     const { canvasTexts } = this.state;
     const { textBlocks } = canvasTexts;
-    this.setState({
-      canvasTexts: {
-        ...canvasTexts,
-        textBlocks: {
-          ...textBlocks,
-          [textId]: {
-            ...textBlocks[textId],
-            text: textValue
+    this.setState(
+      {
+        canvasTexts: {
+          ...canvasTexts,
+          textBlocks: {
+            ...textBlocks,
+            [id]: {
+              ...textBlocks[id],
+              text
+            }
           }
         }
+      },
+      () => {
+        console.log(this.state);
       }
-    });
+    );
   };
 
   setAdoptionFormField = (key: keyof IAdoptionForm, value: any) => {
@@ -117,19 +127,44 @@ class Home extends Component<any, IHomeState> {
     });
   };
 
+  addTextBlock = () => {
+    const { canvasTexts } = this.state;
+    const { textBlocks } = canvasTexts;
+
+    const id = nanoid();
+    const newTextblock: ITextBlocksConfigPanelState = {
+      color: 'black',
+      fontSize: 'medium',
+      id,
+      text: ''
+    };
+
+    this.setState({
+      canvasTexts: {
+        ...canvasTexts,
+        textBlocks: {
+          ...textBlocks,
+          [id]: newTextblock
+        }
+      }
+    });
+  };
+
   render() {
     const { canvasImage, canvasTexts, formValues } = this.state;
-    const { selectedTextBlock } = canvasTexts;
+    const { selectedTextBlock, textBlocks } = canvasTexts;
 
     return (
       <div>
         <Nav onImageUploaded={this.setCanvasImage} />
         <section data-name="bodycontainer" css={containerStyle}>
           <LeftSidebar
+            addTextBlock={this.addTextBlock}
             canvasRef={this.stageRef}
             formValues={formValues}
-            onMainTextButtonPressed={this.setSelectedTextBlock}
+            onTextBlockInteracted={this.setSelectedTextBlock}
             selectedTextBlock={selectedTextBlock}
+            textBlocks={textBlocks}
             onInputChanged={this.setAdoptionFormField}
             onTextChanged={this.onTextChanged}
           />

@@ -6,13 +6,6 @@ export const sidebarContainerStyle = css`
   width: 300px;
 `;
 
-export const hiddenStyle = css`
-  display: none;
-`;
-export const shownStyle = css`
-  display: initial;
-`;
-
 export const customButtonStyle = css`
   padding-left: 2rem;
   padding-right: 2rem;

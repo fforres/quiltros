@@ -9,8 +9,10 @@ import ReactDOM from 'react-dom';
 import { textaAreaStyle } from './styles';
 
 export interface IEditTextArea {
+  maxWidth: number;
+  maxHeight: number;
   selectedtextblockid: string;
-  onTextChanged: (attr1: string, attr2: string) => void;
+  onTextAreaChanged: (attr1: string, attr2: string) => void;
   onTextAreaClosed: () => void;
   value: string;
   style: any;
@@ -28,11 +30,12 @@ class EditTextArea extends Component<IEditTextArea> {
   }
 
   onChange = e => {
-    const { onTextChanged, selectedtextblockid } = this.props;
+    const { onTextAreaChanged, selectedtextblockid } = this.props;
     const { currentTarget } = e;
     const { height } = this.state;
     const { value, scrollHeight } = currentTarget;
-    onTextChanged(selectedtextblockid, value);
+    console.log(selectedtextblockid, value);
+    onTextAreaChanged(selectedtextblockid, value);
     if (scrollHeight !== height) {
       this.setState({
         height: scrollHeight
@@ -66,7 +69,14 @@ class EditTextArea extends Component<IEditTextArea> {
       return;
     }
     const { height } = this.state;
-    const { style, ...restOfProps } = this.props;
+    const {
+      style,
+      maxWidth,
+      maxHeight,
+      onTextAreaClosed,
+      onTextAreaChanged,
+      ...restOfProps
+    } = this.props;
     const { height: _, ...rest } = style;
     return ReactDOM.createPortal(
       <textarea
@@ -74,7 +84,12 @@ class EditTextArea extends Component<IEditTextArea> {
         css={textaAreaStyle}
         onKeyDown={this.onKeyDown}
         onChange={this.onChange}
-        style={{ ...rest, height }}
+        style={{
+          ...rest,
+          height,
+          maxWeight: `${maxHeight}px`,
+          maxWidth: `${maxWidth}px`
+        }}
         {...restOfProps}
       />,
       domNode

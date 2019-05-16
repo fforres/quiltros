@@ -9,32 +9,29 @@ import {
 import { jsx } from '@emotion/core';
 import React from 'react';
 import ColorSelector from '../colorSelector';
-import { hiddenStyle, shownStyle } from './style';
 
-export interface ITextBlocksConfigPanelProps {
-  shown: boolean;
-  id: string;
+export interface ITextBlocksConfigPanelProps
+  extends ITextBlocksConfigPanelState {
+  isSelected: boolean;
   onChange: (arg1: ITextBlocksConfigPanelState) => void;
+  onMouseDown: () => void;
 }
 
 export interface ITextBlocksConfigPanelState {
   id: string;
   text: string;
-  fontSize: string;
-  color: string;
-  borderColor: string;
+  fontSize: 'small' | 'medium' | 'large';
+  color: 'black' | 'red' | 'green' | 'purple' | 'yellow' | 'white';
 }
 
 export default class TextBlocksConfigPanel extends React.Component<
-  ITextBlocksConfigPanelProps,
-  ITextBlocksConfigPanelState
+  ITextBlocksConfigPanelProps
 > {
   static colors = ['black', 'red', 'green', 'purple', 'yellow', 'white'];
 
   constructor(props) {
     super(props);
     this.state = {
-      borderColor: 'black',
       color: 'black',
       fontSize: 'medium',
       id: props.id,
@@ -59,10 +56,9 @@ export default class TextBlocksConfigPanel extends React.Component<
   };
 
   render() {
-    const { shown } = this.props;
-    const { fontSize, color } = this.state;
+    const { fontSize, color, onMouseDown, text } = this.props;
     return (
-      <div css={[hiddenStyle, shown && shownStyle]}>
+      <div onMouseDown={onMouseDown}>
         <FormGroup label="Texto">
           <TextArea
             fill
