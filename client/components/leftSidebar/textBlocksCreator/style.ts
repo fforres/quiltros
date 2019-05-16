@@ -5,8 +5,3 @@ export const sidebarContainerStyle = css`
   min-width: 300px;
   width: 300px;
 `;
-
-export const customButtonStyle = css`
-  padding-left: 2rem;
-  padding-right: 2rem;
-`;

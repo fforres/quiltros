@@ -82,7 +82,7 @@ class Home extends Component<any, IHomeState> {
     });
   };
 
-  onTextChanged = (s: ITextBlocksConfigPanelState) => {
+  onTextChanged = (key, value, id) => {
     const { canvasTexts } = this.state;
     const { textBlocks } = canvasTexts;
     this.setState({
@@ -90,7 +90,10 @@ class Home extends Component<any, IHomeState> {
         ...canvasTexts,
         textBlocks: {
           ...textBlocks,
-          [s.id]: s
+          [id]: {
+            ...textBlocks[id],
+            [key]: value
+          }
         }
       }
     });

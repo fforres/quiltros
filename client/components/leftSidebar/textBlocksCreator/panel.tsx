@@ -13,7 +13,7 @@ import ColorSelector from '../colorSelector';
 export interface ITextBlocksConfigPanelProps
   extends ITextBlocksConfigPanelState {
   isSelected: boolean;
-  onChange: (arg1: ITextBlocksConfigPanelState) => void;
+  onChange: (key: string, value: string, id: string) => void;
   onMouseDown: () => void;
 }
 
@@ -39,31 +39,38 @@ export default class TextBlocksConfigPanel extends React.Component<
     };
   }
 
-  change = () => {
-    this.props.onChange(this.state);
-  };
+  componentWillReceiveProps(nextProps: ITextBlocksConfigPanelProps) {
+    this.setState({
+      ...this.state,
+      ...nextProps
+    });
+  }
 
   onMainTextChanged = e => {
-    this.setState({ text: e.target.value }, this.change);
+    const { onChange, id } = this.props;
+    onChange('text', e.target.value, id);
   };
 
   setHeight = fontSize => () => {
-    this.setState({ fontSize }, this.change);
+    const { onChange, id } = this.props;
+    onChange('fontSize', fontSize, id);
   };
 
   setSelectedColor = color => {
-    this.setState({ color }, this.change);
+    const { onChange, id } = this.props;
+    onChange('color', color, id);
   };
 
   render() {
-    const { fontSize, color, onMouseDown, text } = this.props;
+    const { fontSize, color, onMouseDown, text, ...rest } = this.props;
     return (
-      <div onMouseDown={onMouseDown}>
+      <section onMouseDown={onMouseDown}>
         <FormGroup label="Texto">
           <TextArea
             fill
             growVertically
             name="Texto"
+            value={text}
             onChange={this.onMainTextChanged}
           />
         </FormGroup>
@@ -104,7 +111,7 @@ export default class TextBlocksConfigPanel extends React.Component<
             ))}
           </ButtonGroup>
         </FormGroup>
-      </div>
+      </section>
     );
   }
 }

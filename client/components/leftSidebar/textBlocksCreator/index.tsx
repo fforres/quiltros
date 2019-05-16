@@ -11,10 +11,10 @@ import { jsx } from '@emotion/core';
 import React from 'react';
 import { IAdoptionForm } from '../../../../pages';
 import TextBlocksConfigPanel, { ITextBlocksConfigPanelState } from './panel';
-import { customButtonStyle, sidebarContainerStyle } from './style';
+import { sidebarContainerStyle } from './style';
 
 export interface ITextBlocksCreatorProps {
-  onTextChanged: (arg1: ITextBlocksConfigPanelState) => void;
+  onTextChanged: (key: string, value: string, id: string) => void;
   onChange: (key: keyof IAdoptionForm, value: any) => void;
   onAddTextBlockClicked: () => void;
   onTextBlockInteracted: (key: string) => void;
@@ -30,10 +30,10 @@ export default class TextBlocksCreator extends React.Component<
   any
 > {
   static buttonsKeys = ['alignment-top', 'align-center', 'alignment-bottom'];
-  onTextBlockChanged = (e, key) => {
+  onTextBlockChanged = (key, value, textBlock) => {
     const { onTextChanged, onTextBlockInteracted } = this.props;
     onTextBlockInteracted(key);
-    onTextChanged(e);
+    onTextChanged(key, value, textBlock.id);
   };
 
   render() {
@@ -55,7 +55,9 @@ export default class TextBlocksCreator extends React.Component<
             key={textBlock.id}
             {...textBlock}
             onMouseDown={() => onTextBlockInteracted(textBlock.id)}
-            onChange={e => this.onTextBlockChanged(e, textBlock)}
+            onChange={(key, value) =>
+              this.onTextBlockChanged(key, value, textBlock)
+            }
             isSelected={selectedTextBlock === textBlock.id}
           />
         ))}

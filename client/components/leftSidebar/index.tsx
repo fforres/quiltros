@@ -20,7 +20,7 @@ export interface ILeftSidebarProps {
   addTextBlock: () => void;
   onInputChanged: (key: keyof IAdoptionForm, value: any) => void;
   onTextBlockInteracted: (key: string) => void;
-  onTextChanged: (arg1: ITextBlocksConfigPanelState) => void;
+  onTextChanged: (key: string, value: string, id: string) => void;
 }
 
 export interface ILeftSidebarState {
