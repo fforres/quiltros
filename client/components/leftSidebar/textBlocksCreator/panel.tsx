@@ -9,65 +9,51 @@ import {
 import { jsx } from '@emotion/core';
 import React from 'react';
 import ColorSelector from '../colorSelector';
-import { hiddenStyle, shownStyle } from './style';
 
-export interface ITextBlocksConfigPanelProps {
-  shown: boolean;
-  id: string;
-  onChange: (arg1: ITextBlocksConfigPanelState) => void;
+export interface ITextBlocksConfigPanelProps
+  extends ITextBlocksConfigPanelState {
+  isSelected: boolean;
+  onChange: (key: string, value: string) => void;
+  onMouseDown: () => void;
 }
 
 export interface ITextBlocksConfigPanelState {
   id: string;
   text: string;
-  fontSize: string;
-  color: string;
-  borderColor: string;
+  fontSize: 'small' | 'medium' | 'large';
+  color: 'black' | 'red' | 'green' | 'purple' | 'yellow' | 'white';
 }
 
 export default class TextBlocksConfigPanel extends React.Component<
-  ITextBlocksConfigPanelProps,
-  ITextBlocksConfigPanelState
+  ITextBlocksConfigPanelProps
 > {
   static colors = ['black', 'red', 'green', 'purple', 'yellow', 'white'];
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      borderColor: 'black',
-      color: 'black',
-      fontSize: 'medium',
-      id: props.id,
-      text: ''
-    };
-  }
-
-  change = () => {
-    this.props.onChange(this.state);
-  };
-
   onMainTextChanged = e => {
-    this.setState({ text: e.target.value }, this.change);
+    const { onChange } = this.props;
+    onChange('text', e.target.value);
   };
 
   setHeight = fontSize => () => {
-    this.setState({ fontSize }, this.change);
+    const { onChange } = this.props;
+    onChange('fontSize', fontSize);
   };
 
   setSelectedColor = color => {
-    this.setState({ color }, this.change);
+    const { onChange } = this.props;
+    onChange('color', color);
   };
 
   render() {
-    const { shown } = this.props;
-    const { fontSize, color } = this.state;
+    const { fontSize, color, onMouseDown, text, ...rest } = this.props;
     return (
-      <div css={[hiddenStyle, shown && shownStyle]}>
+      <section onMouseDown={onMouseDown}>
         <FormGroup label="Texto">
           <TextArea
             fill
             growVertically
             name="Texto"
+            value={text}
             onChange={this.onMainTextChanged}
           />
         </FormGroup>
@@ -108,7 +94,7 @@ export default class TextBlocksConfigPanel extends React.Component<
             ))}
           </ButtonGroup>
         </FormGroup>
-      </div>
+      </section>
     );
   }
 }

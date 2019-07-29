@@ -7,8 +7,6 @@ import {
   H4,
   InputGroup,
   Radio,
-  RadioGroup,
-  Switch,
   TextArea
 } from '@blueprintjs/core';
 import { jsx } from '@emotion/core';
@@ -41,7 +39,7 @@ export default class PetInformation extends React.Component<
       <Card elevation={Elevation.ONE} css={sidebarContainerStyle}>
         <H4>Información</H4>
         <div>
-          <FormGroup label="Nombre *">
+          <FormGroup label={'Nombre'}>
             <InputGroup
               name="nombre-mascota"
               placeholder="Nombre"
@@ -53,35 +51,6 @@ export default class PetInformation extends React.Component<
               required
             />
           </FormGroup>
-        </div>
-        <div>
-          <Checkbox
-            name="esterilizado"
-            label="Esterilizado"
-            checked={formValues.esterilizado}
-            onChange={e => {
-              onChange('esterilizado', !formValues.esterilizado);
-            }}
-            inline
-          />
-          <Checkbox
-            name="chip"
-            label="Chip"
-            checked={formValues.chip}
-            onChange={e => {
-              onChange('chip', !formValues.chip);
-            }}
-            inline
-          />
-          <Checkbox
-            name="vacunas"
-            label="Vacunas al día"
-            checked={formValues.vacunas}
-            onChange={e => {
-              onChange('vacunas', !formValues.vacunas);
-            }}
-            inline
-          />
         </div>
         <div>
           <FormGroup label="Tamaño *">
@@ -112,6 +81,32 @@ export default class PetInformation extends React.Component<
               value="l"
             />
           </FormGroup>
+        </div>
+        <div>
+          <Checkbox
+            name="esterilizado"
+            label="¿Está esterilizado?"
+            checked={formValues.esterilizado}
+            onChange={e => {
+              onChange('esterilizado', !formValues.esterilizado);
+            }}
+          />
+          <Checkbox
+            name="chip"
+            label="¿Tiene chip?"
+            checked={formValues.chip}
+            onChange={e => {
+              onChange('chip', !formValues.chip);
+            }}
+          />
+          <Checkbox
+            name="vacunas"
+            label="¿Tiene las vacunas al día?"
+            checked={formValues.vacunas}
+            onChange={e => {
+              onChange('vacunas', !formValues.vacunas);
+            }}
+          />
         </div>
         <div>
           <FormGroup label="Edad">
